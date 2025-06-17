@@ -40,12 +40,8 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	
 	application_surface_draw_enable(false);
 	
-	__obj_stanncam_manager.display_res_w = _resolution_w;
-	__obj_stanncam_manager.display_res_h = _resolution_h;
-	stanncam_set_window_mode(_window_mode);
-	
-	__obj_stanncam_manager.resize_width = window_get_width();
-	__obj_stanncam_manager.resize_height = window_get_height();
+    stanncam_set_resolution(_resolution_w,_resolution_h); 
+    stanncam_set_window_mode(_window_mode);
 	
 	//check if stanncam manager has been deactivated and if so throw an error
 	global.stanncam_time_source = time_source_create(time_source_global, 1, time_source_units_frames, function(){
@@ -211,17 +207,6 @@ function __stanncam_update_resolution(){
 	switch (global.window_mode) {
 		//fullscreen
 		case STANNCAM_WINDOW_MODE.FULLSCREEN:
-			if(__obj_stanncam_manager.keep_aspect_ratio){
-				var _ratio = global.game_w / global.game_h;
-				global.res_w = display_get_height() * _ratio;
-				global.res_h = display_get_height();
-			} else {
-				global.res_w = display_get_width();
-				global.res_h = display_get_height();
-			}
-			window_set_size(display_get_width(), display_get_height());
-			__stanncam_center();
-			break;
 		//borderless windowed
 		case STANNCAM_WINDOW_MODE.BORDERLESS:
 			if(__obj_stanncam_manager.keep_aspect_ratio){

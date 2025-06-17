@@ -95,8 +95,6 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	zoom_amount = 1;
 	
 	__zooming = false;
-	zoom_x = 0;
-	zoom_y = 0;
 	__t_zoom = 0;
 	__zoomStart = 0;
 	__zoomTo = 0;
@@ -230,6 +228,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 				if(__zooming){
 					//gradually zooms camera
 					zoom_amount = stanncam_animcurve(__t_zoom, __zoomStart, __zoomTo, __zoom_duration, anim_curve_zoom);
+                    
 					__t_zoom++;
 					
 					if(zoom_amount == __zoomTo) __zooming = false;
@@ -348,12 +347,6 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 		if(_duration == 0){ //if duration is 0 the view is updated immediately
 			zoom_amount = _zoom;
 			
-			//some rounding issues, so here we round to nearest second decimal place, IE 0.19999999 becomes 0.02, very edge case problem
-			zoom_amount = round(zoom_amount * 100) / 100;
-
-			zoom_x = ((width * zoom_amount) - width) * 0.5;
-			zoom_y = ((height * zoom_amount) - height) * 0.5;
-			
 			if(!get_paused()){
 				__update_view_size();
 			}
@@ -367,19 +360,23 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	}
 	
 	/// @function get_zoom_x
-	/// @description there's a difference in how zoom works with smooth_draw on/off if you need to use the zoom_amount while smooth_draw is off, you need to use this function
+	/// @description get zoom x offset
 	/// @ignore
-	static get_zoom_x = function(){
-		if(smooth_draw) return zoom_amount;
-		return surface_get_width(surface) / width;
+	static get_zoom_x = function(_width = width){ //maybe remove?
+        var _zoom = zoom_amount;
+        if(!smooth_draw) _zoom = floor(_zoom / 0.02 + 0.999) * 0.02;
+        
+		return 0;// (width  * (1-_zoom)) / 2;
 	}
 	
 	/// @function get_zoom_y
 	/// @description there's a difference in how zoom works with smooth_draw on/off if you need to use the zoom_amount while smooth_draw is off, you need to use this function
 	/// @ignore
-	static get_zoom_y = function(){
-		if(smooth_draw) return zoom_amount;
-		return surface_get_height(surface) / height;
+	static get_zoom_y = function(_height = height){
+        var _zoom = zoom_amount;
+        if(!smooth_draw) _zoom = floor(_zoom / 0.02 + 0.999) * 0.02;
+        
+		return 0//(height  * (1-_zoom)) / 2;
 	}
 	
 	/// @function shake_screen
@@ -444,9 +441,15 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static get_mouse_x = function(){
-		var _mouse_x = (((window_mouse_get_x() - stanncam_ratio_compensate_x()) / (__obj_stanncam_manager.__display_scale_x * width)) * width * get_zoom_x()) + get_x();
-		if(smooth_draw) return _mouse_x;
-		return _mouse_x - (_mouse_x mod get_zoom_x());
+        
+        var _zoom_offset = (width  * (1-zoom_amount)) / 2;
+		var _mouse_x = ((window_mouse_get_x() - stanncam_ratio_compensate_x()) / (__obj_stanncam_manager.__display_scale_x)) * zoom_amount
+        _mouse_x += _zoom_offset + get_x() - 1; 
+        if(smooth_draw) _mouse_x += x_frac;
+        
+        if(zoom_amount > 1) _mouse_x += width /2;
+        
+		return _mouse_x;
 	}
 	
 	/// @function get_mouse_y
@@ -454,9 +457,15 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static get_mouse_y = function(){
-		var _mouse_y = (((window_mouse_get_y() - stanncam_ratio_compensate_y()) / (__obj_stanncam_manager.__display_scale_y * height)) * height * get_zoom_y()) + get_y();
-		if(smooth_draw) return _mouse_y;
-		return _mouse_y - (_mouse_y mod get_zoom_y());
+        
+        var _zoom_offset = (width  * (1-zoom_amount)) / 2;
+		var _mouse_y = ((window_mouse_get_y() - stanncam_ratio_compensate_y()) / (__obj_stanncam_manager.__display_scale_y)) * zoom_amount
+		_mouse_y += _zoom_offset + get_y() - 1;
+        if(smooth_draw) _mouse_y += y_frac;
+        
+        if(zoom_amount > 1) _mouse_y += height /2;
+        
+		return _mouse_y;
 	}
 	
 	/// @function room_to_gui_x
@@ -493,7 +502,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Real} _x
 	/// @returns {Real}
 	function room_to_display_x(_x){
-		return ((_x - get_x() - x_frac) / get_zoom_x()) * stanncam_get_res_scale_x();
+		return ((_x - get_x() - x_frac ) / get_zoom_x()) * stanncam_get_res_scale_x() + stanncam_ratio_compensate_x();
 	}
 	
 	/// @function room_to_display_y
@@ -501,7 +510,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Real} _y
 	/// @returns {Real}
 	function room_to_display_y(_y){
-		return ((_y - get_y() - y_frac) / get_zoom_y()) * stanncam_get_res_scale_y();
+		return ((_y - get_y() - y_frac) / get_zoom_y()) * stanncam_get_res_scale_y() + stanncam_ratio_compensate_y();
 	}
 	
 	/// @function out_of_bounds
@@ -517,8 +526,8 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 		var _col = //uses camera view bounding box
 			(_x < (_cam_x + _margin)) ||
 			(_y < (_cam_y + _margin)) ||
-			(_x > ((_cam_x + (width * zoom_amount)) - _margin)) ||
-			(_y > ((_cam_y + (height * zoom_amount)) - _margin))
+			(_x > ((_cam_x + (width  * get_zoom_y())) - _margin)) ||
+			(_y > ((_cam_y + (height * get_zoom_y())) - _margin))
 		;
 
 		return _col;
@@ -555,22 +564,16 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Bool} [_force=false]
 	/// @ignore
 	static __update_view_size = function(_force=false){
-		//if smooth_draw is off maintains pixel perfection even when zooming in and out
-		//if on it is handled by the draw events
-		if(smooth_draw){
-			var _ceiled_zoom = ceil(zoom_amount); //ensures the new surface size is a whole number
-			var _new_width = width * _ceiled_zoom  + 1; //smooth drawing needs the surface to be 1 pixel wider and taller to remove edge warping
-			var _new_height = height * _ceiled_zoom + 1;
-		} else {
-			var _new_width = floor(width * zoom_amount);
-			var _new_height = floor(height * zoom_amount);
-			
-			var _width_2px = _new_width mod 2;
-			var _height_2px = _new_height mod 2;
-			
-			_new_width = _new_width - _width_2px;
-			_new_height = _new_height - _height_2px;
+        //if zooming out the surface is scaled up
+        var _zoom = ceil(zoom_amount);
+        var _new_width  = width  * _zoom;
+        var _new_height = height * _zoom;
+        
+		if(smooth_draw){  //smooth drawing needs the surface to be 1 pixel wider and taller to remove edge warping 
+            _new_width  += 1;
+            _new_height += 1;
 		}
+        
 		//only runs if the size has changed (unless forced, used by __check_viewports to initialize)
 		if(_force || surface_get_width(surface) != _new_width || surface_get_height(surface) != _new_height){
 			__check_surface();
@@ -584,31 +587,25 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @ignore
 	static __update_view_pos = function(){
 		//update camera view
-		var _new_x = x + offset_x - (width * 0.5) + __shake_x;
+		var _new_x = x + offset_x - (width  * 0.5) + __shake_x;
 		var _new_y = y + offset_y - (height * 0.5) + __shake_y;
-		
-		if(!smooth_draw){// when smooth draw is off, the actual camera position gets rounded to whole numbers
-			_new_x = round(_new_x);
-			_new_y = round(_new_y);
-		}
-		
-		//apply zoom offset
-		_new_x -= zoom_x;
-		_new_y -= zoom_y;
-		
-		if(smooth_draw){ //smooth drawing requires one extra pixel on the camera surface to remove edge warping, this is to fix the offset that occurs with that
-			if(_new_x <= 0) _new_x -= 1;
-			if(_new_y <= 0) _new_y -= 1;
-		}
-
-		//without smooth_draw zooming needs to be snapped a bit
-		var _width_stepped = (width * zoom_amount);
+        
+        if(zoom_amount > 1){
+            _new_x -= width /2;
+            _new_y -= height/2;
+        }
+        
+        //round to nearest 0.001 decimal
+        _new_x = floor(_new_x / 0.001 + 0.999) * 0.001;
+        _new_y = floor(_new_y / 0.001 + 0.999) * 0.001;
+        
+        #region constraining
+        
+        //without smooth_draw zooming needs to be snapped a bit
+        //var zoom_ = ceil(zoom_amount / 0.02) * 0.02;
+		var _width_stepped  = (width  * zoom_amount);
 		var _height_stepped = (height * zoom_amount);
-		if(!smooth_draw){
-			_width_stepped -= _width_stepped mod 2;
-			_height_stepped -= _height_stepped mod 2;
-		}
-
+        
 		//zone constricting
 		if(__zone != noone){
 			var _zone_constrain_x = 0;
@@ -656,30 +653,30 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 		
 		//Constrains camera to room
 		if(room_constrain){
-			__constrain_offset_x = (clamp(_new_x, 0, room_width - _width_stepped) - _new_x);
+            
+			__constrain_offset_x = (clamp(_new_x, 0, room_width  - _width_stepped)  - _new_x);
 			__constrain_offset_y = (clamp(_new_y, 0, room_height - _height_stepped) - _new_y);
 			
 			_new_x += __constrain_offset_x;
 			_new_y += __constrain_offset_y;
+            
 		} else {
 			__constrain_offset_x = 0;
 			__constrain_offset_y = 0;
 		}
-		
-		if(smooth_draw){
-			//seperates position into whole and fractional parts
-			//when position is negative, fraction is too, and so this is to compensate for that
-			
-			if(_new_x > 0) x_frac = frac(_new_x);
-			else x_frac = 1 + frac(_new_x);
-					
-			if(_new_y > 0) y_frac = frac(_new_y);
-			else y_frac = 1 + frac(_new_y);
-			
-			_new_x = floor(abs(_new_x)) * sign(_new_x);
-			_new_y = floor(abs(_new_y)) * sign(_new_y);
-			
-		}
+		#endregion
+        
+		//seperates fractions and integers. When negative 1 is added to compensate
+        x_frac = frac(_new_x);
+        y_frac = frac(_new_y); 
+        if(x_frac < 0) {
+            x_frac++;
+        }
+        if(y_frac < 0){
+            y_frac++;
+        }
+        _new_x = floor(_new_x);
+        _new_y = floor(_new_y);
 		
 		camera_set_view_pos(__camera, _new_x, _new_y);
 	}
@@ -737,8 +734,6 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 		}
 	}
 	
-
-	
 	/// @function draw_special
 	/// @description pass in draw commands, and have them be scaled to match the stanncam
 	/// @param {Function} _draw_func
@@ -750,8 +745,8 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Real} [_scale_y=1]
 	/// @ignore
 	static draw_special = function(_draw_func, _x, _y, _surf_width=width, _surf_height=height, _scale_x=1, _scale_y=1){
-		var _surf_width_scaled = floor(_surf_width * zoom_amount);
-		var _surf_height_scaled = floor(_surf_height * zoom_amount);
+		var _surf_width_scaled =  floor(_surf_width  * get_zoom_x());
+		var _surf_height_scaled = floor(_surf_height * get_zoom_y());
 		if(surface_exists(__surface_special)){
 			if((surface_get_width(__surface_special) != _surf_width_scaled) || (surface_get_height(__surface_special) != _surf_height_scaled)){
 				surface_free(__surface_special);
@@ -799,25 +794,30 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 		var _display_scale_x = __obj_stanncam_manager.__display_scale_x;
 		var _display_scale_y = __obj_stanncam_manager.__display_scale_y;
 
-		if(smooth_draw){ //if smooth draw is off, the zoom amount becomes stepped to 0.02, and frac_x/y are 0
-			_width *= zoom_amount;
-			_height *= zoom_amount;
-			_scale_x /= zoom_amount;
-			_scale_y /= zoom_amount;
-			
-			draw_surface_part_ext(_surface, x_frac + _left, y_frac + _top, _width, _height, _x, _y, _display_scale_x * _scale_x, _display_scale_y * _scale_y, -1, 1);
-		} else {
-			var _width_stepped = _width * zoom_amount;
-			var _height_stepped = _height * zoom_amount;
-			
-			_width_stepped -= _width_stepped mod 2;
-			_height_stepped -= _height_stepped mod 2;
-			
-			_scale_x /= _width / _width_stepped;
-			_scale_y /= _height / _height_stepped;
-
-			draw_surface_part_ext(_surface, _left, _top, _width_stepped, _height_stepped, _x, _y, _display_scale_x * _scale_x, _display_scale_y * _scale_y, -1, 1);
+        var _zoom = zoom_amount;
+        var _x_frac = x_frac;
+        var _y_frac = y_frac;
+        
+		if(!smooth_draw){ //if smooth draw is off, the zoom amount becomes stepped to 0.02, and frac_x/y are 0
+            _zoom = floor((zoom_amount / 0.02) + 0.999) * 0.02; //this is basically ceil(zoom_amount / 0.02) but written like this to circumvent rounding errors
+            _x_frac = 0;
+            _y_frac = 0;
 		}
+        
+        _left += (_width  * (1-_zoom)) / 2;
+        _top  += (_height * (1-_zoom)) / 2;
+        
+        if(_zoom > 1){
+            _left += width /2;
+            _top += height/2;
+        }
+        
+        _width   *= _zoom;
+		_height  *= _zoom;
+		_scale_x /= _zoom;
+		_scale_y /= _zoom;
+
+		draw_surface_part_ext(_surface, _x_frac + _left, _y_frac + _top, _width, _height, _x, _y, _display_scale_x * _scale_x, _display_scale_y * _scale_y, -1, 1);
 	}
 #endregion
 
