@@ -359,26 +359,6 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 		}
 	}
 	
-	/// @function get_zoom_x
-	/// @description get zoom x offset
-	/// @ignore
-	static get_zoom_x = function(_width = width){ //maybe remove?
-        var _zoom = zoom_amount;
-        if(!smooth_draw) _zoom = floor(_zoom / 0.02 + 0.999) * 0.02;
-        
-		return 0;// (width  * (1-_zoom)) / 2;
-	}
-	
-	/// @function get_zoom_y
-	/// @description there's a difference in how zoom works with smooth_draw on/off if you need to use the zoom_amount while smooth_draw is off, you need to use this function
-	/// @ignore
-	static get_zoom_y = function(_height = height){
-        var _zoom = zoom_amount;
-        if(!smooth_draw) _zoom = floor(_zoom / 0.02 + 0.999) * 0.02;
-        
-		return 0//(height  * (1-_zoom)) / 2;
-	}
-	
 	/// @function shake_screen
 	/// @description makes the camera shake
 	/// @param {Real} _magnitude
@@ -441,15 +421,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static get_mouse_x = function(){
-        
-        var _zoom_offset = (width  * (1-zoom_amount)) / 2;
-		var _mouse_x = ((window_mouse_get_x() - stanncam_ratio_compensate_x()) / (__obj_stanncam_manager.__display_scale_x)) * zoom_amount
-        _mouse_x += _zoom_offset + get_x() - 1; 
-        if(smooth_draw) _mouse_x += x_frac;
-        
-        if(zoom_amount > 1) _mouse_x += width /2;
-        
-		return _mouse_x;
+        return __view_to_room_x( (window_mouse_get_x() - stanncam_ratio_compensate_x()) / stanncam_get_res_scale_x());
 	}
 	
 	/// @function get_mouse_y
@@ -457,15 +429,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static get_mouse_y = function(){
-        
-        var _zoom_offset = (width  * (1-zoom_amount)) / 2;
-		var _mouse_y = ((window_mouse_get_y() - stanncam_ratio_compensate_y()) / (__obj_stanncam_manager.__display_scale_y)) * zoom_amount
-		_mouse_y += _zoom_offset + get_y() - 1;
-        if(smooth_draw) _mouse_y += y_frac;
-        
-        if(zoom_amount > 1) _mouse_y += height /2;
-        
-		return _mouse_y;
+        return __view_to_room_y( (window_mouse_get_y() - stanncam_ratio_compensate_y()) / stanncam_get_res_scale_y());
 	}
 	
 	/// @function room_to_gui_x
@@ -474,7 +438,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static room_to_gui_x = function(_x){
-		return ((_x - get_x() - x_frac) / get_zoom_x()) * stanncam_get_gui_scale_x();
+        return __room_to_view_x(_x) * stanncam_get_gui_scale_x() - 1;
 	}
 	
 	/// @function room_to_gui_y
@@ -483,10 +447,26 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static room_to_gui_y = function(_y){
-		return ((_y - get_y() - y_frac) / get_zoom_y()) * stanncam_get_gui_scale_y();
+        return __room_to_view_y(_y) * stanncam_get_gui_scale_y() - 1;
 	}
 	
-	/// @function get_active_zone
+	/// @function room_to_display_x
+	/// @description returns the room x position as the position on the display relative to camera
+	/// @param {Real} _x
+	/// @returns {Real}
+	function room_to_display_x(_x){ 
+        return __room_to_view_x(_x) * stanncam_get_res_scale_x() - 1 + stanncam_ratio_compensate_x();
+	}
+	
+	/// @function room_to_display_y
+	/// @description returns the room y position as the position on the display relative to camera
+	/// @param {Real} _y
+	/// @returns {Real}
+	function room_to_display_y(_y){ 
+        return __room_to_view_y(_y) * stanncam_get_res_scale_y() - 1 + stanncam_ratio_compensate_y();
+	}
+    
+    /// @function get_active_zone
 	/// @description returns the active zone the followed instance is within, noone if outside, or no instance is followed
 	/// @returns {Id.Instance|Noone}
 	/// @ignore
@@ -497,22 +477,6 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 		return noone;
 	}
 	
-	/// @function room_to_display_x
-	/// @description returns the room x position as the position on the display relative to camera
-	/// @param {Real} _x
-	/// @returns {Real}
-	function room_to_display_x(_x){
-		return ((_x - get_x() - x_frac ) / get_zoom_x()) * stanncam_get_res_scale_x() + stanncam_ratio_compensate_x();
-	}
-	
-	/// @function room_to_display_y
-	/// @description returns the room y position as the position on the display relative to camera
-	/// @param {Real} _y
-	/// @returns {Real}
-	function room_to_display_y(_y){
-		return ((_y - get_y() - y_frac) / get_zoom_y()) * stanncam_get_res_scale_y() + stanncam_ratio_compensate_y();
-	}
-	
 	/// @function out_of_bounds
 	/// @description returns if the position is outside of camera bounds
 	/// @param {Real} _x
@@ -521,13 +485,15 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Bool}
 	/// @ignore
 	static out_of_bounds = function(_x, _y, _margin=0){
-		var _cam_x = get_x();
-		var _cam_y = get_y();
+
+        _x = __room_to_view_x(_x);
+        _y = __room_to_view_y(_y);
+        
 		var _col = //uses camera view bounding box
-			(_x < (_cam_x + _margin)) ||
-			(_y < (_cam_y + _margin)) ||
-			(_x > ((_cam_x + (width  * get_zoom_y())) - _margin)) ||
-			(_y > ((_cam_y + (height * get_zoom_y())) - _margin))
+			(_x < (_margin)) ||
+			(_y < (_margin)) ||
+			(_x > (width  - _margin)) ||
+			(_y > (height - _margin))
 		;
 
 		return _col;
@@ -559,6 +525,70 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	
 #region Internal functions
 	
+    /// @function __room_to_view_x
+	/// @description room position to camera view
+	/// @param {Real} [_x]
+	/// @ignore
+    static __room_to_view_x = function(_x){
+        var _zoom_offset = (width  * (1-zoom_amount)) / 2;
+        
+        _x -= _zoom_offset + get_x() - 1;
+        
+        if(zoom_amount > 1) _x -= width /2;
+        
+	    _x /= zoom_amount;
+        
+        return _x;
+    }
+    
+    /// @function __view_to_room_x
+    /// @description camera view to room position
+    /// @param {Real} [_x]
+    /// @ignore
+    static __view_to_room_x = function(_x){ 
+        var _zoom_offset = (width * (1-zoom_amount)) / 2;
+        
+        _x *= zoom_amount;
+        
+        if (zoom_amount > 1) _x += width / 2;
+        
+        _x += _zoom_offset + get_x() - 1;
+         
+        return _x;
+    }
+    
+    /// @function __room_to_view_y
+	/// @description room position to camera view
+	/// @param {Real} [_y]
+	/// @ignore
+    static __room_to_view_y = function(_y){
+        var _zoom_offset = (height  * (1-zoom_amount)) / 2;
+        
+        _y -= _zoom_offset + get_y() - 1;
+        
+        if(zoom_amount > 1) _y -= height /2;
+        
+	    _y /= zoom_amount;
+        
+        return _y;
+    }
+     
+    /// @function __view_to_room_y
+    /// @description camera view to room position
+    /// @param {Real} [_y]
+    /// @ignore
+    static __view_to_room_y = function(_y){ 
+        var _zoom_offset = (height * (1 - zoom_amount)) / 2;
+        
+        _y *= zoom_amount;
+        
+        if (zoom_amount > 1) _y += height / 2;
+        
+        _y += _zoom_offset + get_y() - 1;
+         
+        return _y;
+    }
+    
 	/// @function __update_view_size
 	/// @description updates the view size
 	/// @param {Bool} [_force=false]
@@ -745,8 +775,8 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Real} [_scale_y=1]
 	/// @ignore
 	static draw_special = function(_draw_func, _x, _y, _surf_width=width, _surf_height=height, _scale_x=1, _scale_y=1){
-		var _surf_width_scaled =  floor(_surf_width  * get_zoom_x());
-		var _surf_height_scaled = floor(_surf_height * get_zoom_y());
+		var _surf_width_scaled =  floor(_surf_width  * 1)//get_zoom_x());
+		var _surf_height_scaled = floor(_surf_height * 1)//get_zoom_y());
 		if(surface_exists(__surface_special)){
 			if((surface_get_width(__surface_special) != _surf_width_scaled) || (surface_get_height(__surface_special) != _surf_height_scaled)){
 				surface_free(__surface_special);

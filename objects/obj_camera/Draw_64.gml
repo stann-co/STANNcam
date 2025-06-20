@@ -95,3 +95,9 @@ if(pointer){
 		draw_sprite_ext(spr_arrow_small, 0, _arrow_x, _arrow_y, 1, 1, 180, -1, 1);
 	}
 }
+
+var _x = cam1.get_mouse_x(); 
+var _y = cam1.get_mouse_y();
+draw_set_color(c_red)
+draw_circle(cam1.room_to_gui_x(_x),cam1.room_to_gui_y(_y),15,true);
+draw_set_color(c_white)

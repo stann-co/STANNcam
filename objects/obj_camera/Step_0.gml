@@ -40,8 +40,8 @@ if(mouse_check_button_pressed(mb_left)){
 	cam1.move(_x, _y, GAME_SPEED * 1);
 	alarm[0] = GAME_SPEED * 1.1;
 	pointer = true;
-	pointer_x = cam1.get_mouse_x();
-	pointer_y = cam1.get_mouse_y();
+	pointer_x = _x;
+	pointer_y = _y;
 }
 
 //toggle zoom in
