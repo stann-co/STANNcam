@@ -50,6 +50,13 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	__surface_special = -1;
 	
 	__destroyed = false;
+    
+    //constraining
+    __constrain_offset_x = 0;
+    __constrain_offset_y = 0;
+    
+    __constrain_frac_x = 0;
+    __constrain_frac_y = 0;
 	
 	//zone constrain
 	__zone_constrain_amount = 0;
@@ -421,7 +428,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static get_mouse_x = function(){
-        return __view_to_room_x( (window_mouse_get_x() - stanncam_ratio_compensate_x()) / stanncam_get_res_scale_x());
+        return __view_to_room_x( (window_mouse_get_x() - stanncam_ratio_compensate_x()) / stanncam_get_res_scale_x()) + __constrain_offset_x + __constrain_frac_x;
 	}
 	
 	/// @function get_mouse_y
@@ -429,7 +436,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static get_mouse_y = function(){
-        return __view_to_room_y( (window_mouse_get_y() - stanncam_ratio_compensate_y()) / stanncam_get_res_scale_y());
+        return __view_to_room_y( (window_mouse_get_y() - stanncam_ratio_compensate_y()) / stanncam_get_res_scale_y()) + __constrain_offset_y + __constrain_frac_y;
 	}
 	
 	/// @function room_to_gui_x
@@ -438,7 +445,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static room_to_gui_x = function(_x){
-        return __room_to_view_x(_x) * stanncam_get_gui_scale_x() - 1;
+        return __room_to_view_x(_x - __constrain_offset_x - __constrain_frac_x) * stanncam_get_gui_scale_x() -1;
 	}
 	
 	/// @function room_to_gui_y
@@ -447,7 +454,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @returns {Real}
 	/// @ignore
 	static room_to_gui_y = function(_y){
-        return __room_to_view_y(_y) * stanncam_get_gui_scale_y() - 1;
+        return __room_to_view_y(_y - __constrain_offset_y - __constrain_frac_y) * stanncam_get_gui_scale_y() -1;
 	}
 	
 	/// @function room_to_display_x
@@ -455,7 +462,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Real} _x
 	/// @returns {Real}
 	function room_to_display_x(_x){ 
-        return __room_to_view_x(_x) * stanncam_get_res_scale_x() - 1 + stanncam_ratio_compensate_x();
+        return __room_to_view_x(_x - __constrain_offset_x - __constrain_frac_x) * stanncam_get_res_scale_x() + stanncam_ratio_compensate_x() -1;
 	}
 	
 	/// @function room_to_display_y
@@ -463,7 +470,7 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Real} _y
 	/// @returns {Real}
 	function room_to_display_y(_y){ 
-        return __room_to_view_y(_y) * stanncam_get_res_scale_y() - 1 + stanncam_ratio_compensate_y();
+        return __room_to_view_y(_y - __constrain_offset_y - __constrain_frac_y) * stanncam_get_res_scale_y() + stanncam_ratio_compensate_y() -1;
 	}
     
     /// @function get_active_zone
@@ -530,31 +537,33 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Real} [_x]
 	/// @ignore
     static __room_to_view_x = function(_x){
-        var _zoom_offset = (width  * (1-zoom_amount)) / 2;
+        var _zoom = __get_zoom();
+        var _zoom_offset = (width  * (1-_zoom)) / 2;
         
-        _x -= _zoom_offset + get_x() - 1;
+        if(!smooth_draw) _x += x_frac;
         
-        if(zoom_amount > 1) _x -= width /2;
+        _x -= _zoom_offset + (x-width/2)-1;
+
+	    _x /= _zoom;
         
-	    _x /= zoom_amount;
-        
-        return _x;
+        return floor((_x / 0.01) + 0.99) * 0.01;
     }
     
     /// @function __view_to_room_x
     /// @description camera view to room position
     /// @param {Real} [_x]
     /// @ignore
-    static __view_to_room_x = function(_x){ 
-        var _zoom_offset = (width * (1-zoom_amount)) / 2;
+    static __view_to_room_x = function(_x){  
+        var _zoom = __get_zoom();
+        var _zoom_offset = (width * (1-_zoom)) / 2;
         
-        _x *= zoom_amount;
+        _x *= _zoom;
         
-        if (zoom_amount > 1) _x += width / 2;
+        _x += _zoom_offset + (x-width/2) -1;
         
-        _x += _zoom_offset + get_x() - 1;
+        if(!smooth_draw) _x -= x_frac;
          
-        return _x;
+        return floor((_x / 0.01) + 0.9) * 0.01;
     }
     
     /// @function __room_to_view_y
@@ -562,15 +571,16 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 	/// @param {Real} [_y]
 	/// @ignore
     static __room_to_view_y = function(_y){
-        var _zoom_offset = (height  * (1-zoom_amount)) / 2;
+        var _zoom = __get_zoom();
+        var _zoom_offset = (height  * (1-_zoom)) / 2;
         
-        _y -= _zoom_offset + get_y() - 1;
+        if(!smooth_draw) _y += y_frac;
         
-        if(zoom_amount > 1) _y -= height /2;
+        _y -= _zoom_offset + (y-height/2)-1;
         
-	    _y /= zoom_amount;
+	    _y /= _zoom;
         
-        return _y;
+        return floor((_y / 0.01) + 0.99) * 0.01;
     }
      
     /// @function __view_to_room_y
@@ -578,15 +588,24 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
     /// @param {Real} [_y]
     /// @ignore
     static __view_to_room_y = function(_y){ 
-        var _zoom_offset = (height * (1 - zoom_amount)) / 2;
+        var _zoom = __get_zoom();
+        var _zoom_offset = (height * (1 - _zoom)) / 2;
         
-        _y *= zoom_amount;
+        _y *= _zoom;
+
+        _y += _zoom_offset + (y-height/2)-1;
         
-        if (zoom_amount > 1) _y += height / 2;
-        
-        _y += _zoom_offset + get_y() - 1;
+        if(!smooth_draw) _y -= y_frac;
          
-        return _y;
+        return floor((_y / 0.01) + 0.99) * 0.01;
+    }
+    
+    /// @function __get_zoom
+	/// @description gets zoom value, snapped if smooth draw is off
+	/// @ignore
+    static __get_zoom = function(){
+        if(smooth_draw) return zoom_amount;
+        else return floor((zoom_amount / 0.02) + 0.999) * 0.02;
     }
     
 	/// @function __update_view_size
@@ -625,78 +644,10 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
             _new_y -= height/2;
         }
         
-        //round to nearest 0.001 decimal
-        _new_x = floor(_new_x / 0.001 + 0.999) * 0.001;
-        _new_y = floor(_new_y / 0.001 + 0.999) * 0.001;
+        //round to nearest 0.01 decimal
+        _new_x = floor(_new_x / 0.01 + 0.99) * 0.01;
+        _new_y = floor(_new_y / 0.01 + 0.99) * 0.01;
         
-        #region constraining
-        
-        //without smooth_draw zooming needs to be snapped a bit
-        //var zoom_ = ceil(zoom_amount / 0.02) * 0.02;
-		var _width_stepped  = (width  * zoom_amount);
-		var _height_stepped = (height * zoom_amount);
-        
-		//zone constricting
-		if(__zone != noone){
-			var _zone_constrain_x = 0;
-			var _zone_constrain_y = 0;
-			
-			var _left, _right, _top, _bottom;
-			
-			if(__zone.left){
-				_left = max(0, __zone.bbox_left - _new_x);
-			}
-			if(__zone.right){
-				_right = -max(0, _new_x + _width_stepped - __zone.bbox_right);
-			}
-			if(__zone.top){
-				_top = max(0, __zone.bbox_top - _new_y);
-			}
-			if(__zone.bottom){
-				_bottom = -max(0, _new_y + _height_stepped - __zone.bbox_bottom);
-			}
-			
-			//horizontal check
-			if(__zone.sprite_width <= (_width_stepped) && __zone.left && __zone.right){
-				//if the zones width is smaller than the camera and both left and right are constraining the cam will be pushed to its middle
-				_zone_constrain_x = (__zone.x+__zone.sprite_width/2) - (_new_x+_width_stepped/2);
-			} else {
-				if(__zone.left) _zone_constrain_x += _left;
-				if(__zone.right) _zone_constrain_x += _right;
-			}
-			
-			//vertical check
-			if(__zone.sprite_height <= (_height_stepped) && __zone.top && __zone.bottom){
-				_zone_constrain_y = (__zone.y+__zone.sprite_height/2) - (_new_y+_height_stepped/2);
-			} else {
-				if(__zone.top)	_zone_constrain_y += _top;
-				if(__zone.bottom) _zone_constrain_y += _bottom;
-			}
-			
-			__zone_constrain_x = lerp(__zone_constrain_x, _zone_constrain_x, __zone_transition);
-			__zone_constrain_y = lerp(__zone_constrain_y, _zone_constrain_y, __zone_transition);
-		
-			//constrains new camera position using constrain_amount
-			_new_x += lerp(0, __zone_constrain_x, __zone_constrain_amount);
-			_new_y += lerp(0, __zone_constrain_y, __zone_constrain_amount);
-		}
-		
-		//Constrains camera to room
-		if(room_constrain){
-            
-			__constrain_offset_x = (clamp(_new_x, 0, room_width  - _width_stepped)  - _new_x);
-			__constrain_offset_y = (clamp(_new_y, 0, room_height - _height_stepped) - _new_y);
-			
-			_new_x += __constrain_offset_x;
-			_new_y += __constrain_offset_y;
-            
-		} else {
-			__constrain_offset_x = 0;
-			__constrain_offset_y = 0;
-		}
-		#endregion
-        
-		//seperates fractions and integers. When negative 1 is added to compensate
         x_frac = frac(_new_x);
         y_frac = frac(_new_y); 
         if(x_frac < 0) {
@@ -705,8 +656,136 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
         if(y_frac < 0){
             y_frac++;
         }
+        
         _new_x = floor(_new_x);
         _new_y = floor(_new_y);
+        
+        #region constraining
+        
+        //without smooth_draw zooming needs to be snapped a bit
+        //var zoom_ = ceil(zoom_amount / 0.02) * 0.02;
+		//var _width_stepped  = (width  * zoom_amount);
+		//var _height_stepped = (height * zoom_amount);
+        
+        __constrain_offset_x = 0;
+        __constrain_offset_y = 0;
+        __constrain_frac_x = 0;
+        __constrain_frac_y = 0;
+         
+		//zone constricting
+		//if(__zone != noone){
+			//var _zone_constrain_x = 0;
+			//var _zone_constrain_y = 0;
+			//
+			//var _left, _right, _top, _bottom;
+			//
+			//if(__zone.left){
+				//_left = max(0, __zone.bbox_left - _new_x);
+			//}
+			//if(__zone.right){
+				//_right = -max(0, _new_x + _width_stepped - __zone.bbox_right);
+			//}
+			//if(__zone.top){
+				//_top = max(0, __zone.bbox_top - _new_y);
+			//}
+			//if(__zone.bottom){
+				//_bottom = -max(0, _new_y + _height_stepped - __zone.bbox_bottom);
+			//}
+			//
+			////horizontal check
+			//if(__zone.sprite_width <= (_width_stepped) && __zone.left && __zone.right){
+				////if the zones width is smaller than the camera and both left and right are constraining the cam will be pushed to its middle
+				//_zone_constrain_x = (__zone.x+__zone.sprite_width/2) - (_new_x+_width_stepped/2);
+			//} else {
+				//if(__zone.left) _zone_constrain_x += _left;
+				//if(__zone.right) _zone_constrain_x += _right;
+			//}
+			//
+			////vertical check
+			//if(__zone.sprite_height <= (_height_stepped) && __zone.top && __zone.bottom){
+				//_zone_constrain_y = (__zone.y+__zone.sprite_height/2) - (_new_y+_height_stepped/2);
+			//} else {
+				//if(__zone.top)	_zone_constrain_y += _top;
+				//if(__zone.bottom) _zone_constrain_y += _bottom;
+			//}
+			//
+			//__zone_constrain_x = lerp(__zone_constrain_x, _zone_constrain_x, __zone_transition);
+			//__zone_constrain_y = lerp(__zone_constrain_y, _zone_constrain_y, __zone_transition);
+		//
+			////constrains new camera position using constrain_amount
+			//_new_x += lerp(0, __zone_constrain_x, __zone_constrain_amount);
+			//_new_y += lerp(0, __zone_constrain_y, __zone_constrain_amount);
+		//}
+		
+		//Constrains camera to room
+		if(room_constrain){
+            
+            var left = __view_to_room_x(0)+1;
+            var right = __view_to_room_x(width);
+             
+            var constrain_width = right - left;
+            if(constrain_width > room_width){
+                
+                __constrain_offset_x += room_width/2 - x;
+                
+            } else {
+                left   = -min(left,0);
+                right  = -max(right  - room_width ,0);
+                
+                var constrain_frac = 0;
+                
+                
+                constrain_frac += frac(left+right)
+                
+                //constrain_frac += frac(left);
+                //constrain_frac += frac(right); // almost there, just gotta refactor a bit
+                if(constrain_frac == 0) constrain_frac -= 1; //this is the only fix i can think of
+                
+                show_debug_message(constrain_frac)
+                
+                __constrain_offset_x += floor(left);
+                __constrain_offset_x += floor(right);
+                
+                __constrain_frac_x = constrain_frac;
+            }
+            
+            var top    = -min(__view_to_room_y(0),0);
+            
+            var bottom = -max(__view_to_room_y(height) - room_height,0);
+            
+            
+            //__constrain_offset_y += top + bottom;
+            
+            
+            //__constrain_offset_y += (top + bottom);
+            
+            
+             
+            
+		} else {
+			__constrain_offset_x = 0;
+			__constrain_offset_y = 0;
+		}
+        
+        
+
+        
+        
+        //__constrain_frac_y += frac(__constrain_offset_y);
+        //__constrain_offset_y = floor(__constrain_offset_y);
+        
+        
+        _new_x += __constrain_offset_x;
+        _new_y += __constrain_offset_y;
+
+        
+        //show_debug_message(__constrain_offset_x)
+        
+        
+		#endregion
+        
+        
+        
 		
 		camera_set_view_pos(__camera, _new_x, _new_y);
 	}
@@ -824,15 +903,17 @@ function stanncam(_x=0, _y=0, _width, _height, _surface_extra_on, _smooth_draw=t
 		var _display_scale_x = __obj_stanncam_manager.__display_scale_x;
 		var _display_scale_y = __obj_stanncam_manager.__display_scale_y;
 
-        var _zoom = zoom_amount;
+        var _zoom = __get_zoom();
         var _x_frac = x_frac;
         var _y_frac = y_frac;
         
 		if(!smooth_draw){ //if smooth draw is off, the zoom amount becomes stepped to 0.02, and frac_x/y are 0
-            _zoom = floor((zoom_amount / 0.02) + 0.999) * 0.02; //this is basically ceil(zoom_amount / 0.02) but written like this to circumvent rounding errors
-            _x_frac = 0;
-            _y_frac = 0;
+          _x_frac = 0;
+          _y_frac = 0;
 		}
+        
+        _x_frac += __constrain_frac_x;
+        _y_frac += __constrain_frac_y;
         
         _left += (_width  * (1-_zoom)) / 2;
         _top  += (_height * (1-_zoom)) / 2;

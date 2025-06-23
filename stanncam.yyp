@@ -122,8 +122,8 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"rm_init","path":"rooms/rm_init/rm_init.yy",},},
-    {"roomId":{"name":"rm_pixel_grid","path":"rooms/rm_pixel_grid/rm_pixel_grid.yy",},},
     {"roomId":{"name":"rm_test","path":"rooms/rm_test/rm_test.yy",},},
+    {"roomId":{"name":"rm_pixel_grid","path":"rooms/rm_pixel_grid/rm_pixel_grid.yy",},},
     {"roomId":{"name":"rm_3d","path":"rooms/rm_3d/rm_3d.yy",},},
     {"roomId":{"name":"rm_sidescroller","path":"rooms/rm_sidescroller/rm_sidescroller.yy",},},
   ],

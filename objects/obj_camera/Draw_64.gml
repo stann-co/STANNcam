@@ -96,7 +96,7 @@ if(pointer){
 	}
 }
 
-var _x = cam1.get_mouse_x(); 
+var _x = cam1.get_mouse_x();
 var _y = cam1.get_mouse_y();
 draw_set_color(c_red)
 draw_circle(cam1.room_to_gui_x(_x),cam1.room_to_gui_y(_y),15,true);
