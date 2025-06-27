@@ -23,6 +23,7 @@ speed_mode = 1;
 game_res = 2;
 gui_hires = false;
 gui_res = 0;
+gui_hires_scale = 6 //how much bigger the hires font is than the pixel one
 
 resolutions = [
 	{w:400, h:400}, //1:1
@@ -33,3 +34,11 @@ resolutions = [
 	{w:1920, h:1080},
 	{w:2560, h:1440}
 ];
+
+gui_resolutions = [
+	{w:320, h:180}, //16:9
+	{w:640, h:360},
+	{w:1280, h:720}
+];
+
+
