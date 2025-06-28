@@ -1,5 +1,5 @@
 //camera
-stanncam_init(320, 180, 1280, 720);
+stanncam_init(320, 180, 1280, 720, 640, 360);
 cam1 = new stanncam(obj_player.x, obj_player.y, global.game_w, global.game_h, 0, 0);
 cam1.follow = obj_player;
 
@@ -22,7 +22,7 @@ speed_mode = 1;
 
 game_res = 2;
 gui_hires = false;
-gui_res = 0;
+gui_res = 1;
 gui_hires_scale = 6 //how much bigger the hires font is than the pixel one
 
 resolutions = [
@@ -42,3 +42,4 @@ gui_resolutions = [
 ];
 
 
+stanncam_debug_set_draw_zones(true);

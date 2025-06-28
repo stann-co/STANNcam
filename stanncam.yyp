@@ -62,6 +62,7 @@
     {"id":{"name":"obj_player2","path":"objects/obj_player2/obj_player2.yy",},},
     {"id":{"name":"obj_stanncam_zone_1side","path":"objects/obj_stanncam_zone_1side/obj_stanncam_zone_1side.yy",},},
     {"id":{"name":"obj_stanncam_zone_2side","path":"objects/obj_stanncam_zone_2side/obj_stanncam_zone_2side.yy",},},
+    {"id":{"name":"obj_stanncam_zone_blank","path":"objects/obj_stanncam_zone_blank/obj_stanncam_zone_blank.yy",},},
     {"id":{"name":"obj_stanncam_zone_corner","path":"objects/obj_stanncam_zone_corner/obj_stanncam_zone_corner.yy",},},
     {"id":{"name":"obj_stanncam_zone_u","path":"objects/obj_stanncam_zone_u/obj_stanncam_zone_u.yy",},},
     {"id":{"name":"obj_stanncam_zone","path":"objects/obj_stanncam_zone/obj_stanncam_zone.yy",},},
