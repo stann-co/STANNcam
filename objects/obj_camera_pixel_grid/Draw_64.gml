@@ -10,11 +10,6 @@ dy = cam1.room_to_gui_y(dy);
 draw_line(dx - size, dy, dx + size, dy);
 draw_line(dx, dy - size, dx, dy + size);
 
-//draw_circle(cam1.room_to_gui_x(dx),cam1.room_to_gui_y(dy),15,true);
-
-
-
-
 var _outline_width = 1;
 var _precision = 8;
 var _offset = 10;
