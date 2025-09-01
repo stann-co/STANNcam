@@ -33,6 +33,9 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	global.res_w = _resolution_w;
 	global.res_h = _resolution_h;
 	global.window_mode = _window_mode;
+    
+    __obj_stanncam_manager.__gui_res_w = global.gui_w; 
+    __obj_stanncam_manager.__gui_res_h = global.gui_h;
 	
 	var _len = array_length(view_camera);
 	for (var i = 0; i < _len; ++i){
@@ -41,12 +44,8 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	
 	application_surface_draw_enable(false);
 	
-	__obj_stanncam_manager.display_res_w = _resolution_w;
-	__obj_stanncam_manager.display_res_h = _resolution_h;
-	stanncam_set_window_mode(_window_mode);
-	
-	__obj_stanncam_manager.resize_width = window_get_width();
-	__obj_stanncam_manager.resize_height = window_get_height();
+    stanncam_set_resolution(_resolution_w,_resolution_h); 
+    stanncam_set_window_mode(_window_mode);
 	
 	//check if stanncam manager has been deactivated and if so throw an error
 	global.stanncam_time_source = time_source_create(time_source_global, 1, time_source_units_frames, function(){
@@ -140,11 +139,26 @@ function stanncam_set_keep_aspect_ratio(_on_off){
 	__stanncam_update_resolution();
 }
 
+/// @function stanncam_set_gui_keep_aspect_ratio
+/// @description set gui keep_aspect_ratio
+/// @param {Bool} _on_off
+function stanncam_set_gui_keep_aspect_ratio(_on_off){
+	__obj_stanncam_manager.gui_keep_aspect_ratio = _on_off;
+	__stanncam_update_resolution();
+}
+
 /// @function stanncam_get_keep_aspect_ratio
-/// @description get whether the display is keep_aspect_ratio
+/// @description get whether the display has keep_aspect_ratio on
 /// @returns {Bool}
 function stanncam_get_keep_aspect_ratio(){
 	return __obj_stanncam_manager.keep_aspect_ratio;
+}
+
+/// @function stanncam_get_gui_keep_aspect_ratio
+/// @description get whether the display has gui_keep_aspect_ratio on
+/// @returns {Bool}
+function stanncam_get_gui_keep_aspect_ratio(){
+	return __obj_stanncam_manager.gui_keep_aspect_ratio;
 }
 
 /// @function stanncam_ratio_compensate_x
@@ -172,8 +186,8 @@ function stanncam_ratio_compensate_y(){
 /// @param {Real} _gui_w
 /// @param {Real} _gui_h
 function stanncam_set_gui_resolution(_gui_w, _gui_h){
-	global.gui_w = _gui_w;
-	global.gui_h = _gui_h;
+	__obj_stanncam_manager.__gui_res_w = _gui_w;
+	__obj_stanncam_manager.__gui_res_h = _gui_h;
 	__stanncam_update_resolution();
 }
 
@@ -212,17 +226,6 @@ function __stanncam_update_resolution(){
 	switch (global.window_mode) {
 		//fullscreen
 		case STANNCAM_WINDOW_MODE.FULLSCREEN:
-			if(__obj_stanncam_manager.keep_aspect_ratio){
-				var _ratio = global.game_w / global.game_h;
-				global.res_w = display_get_height() * _ratio;
-				global.res_h = display_get_height();
-			} else {
-				global.res_w = display_get_width();
-				global.res_h = display_get_height();
-			}
-			window_set_size(display_get_width(), display_get_height());
-			__stanncam_center();
-			break;
 		//borderless windowed
 		case STANNCAM_WINDOW_MODE.BORDERLESS:
 			if(__obj_stanncam_manager.keep_aspect_ratio){
@@ -257,26 +260,32 @@ function __stanncam_update_resolution(){
 	}
 	
 	with(__obj_stanncam_manager){
+        
+        var _gui_x_scale = global.res_w / __gui_res_w; 
+        var _gui_y_scale = global.res_h / __gui_res_h;
+
+        global.gui_w = __gui_res_w;
+        global.gui_h = __gui_res_h;
+        
 		if(stanncam_get_keep_aspect_ratio()){
 			var _ratio = (global.res_w / global.res_h) / (global.game_w / global.game_h);
 			if(_ratio > 1){
 				__display_scale_x = stanncam_get_res_scale_y();
 				__display_scale_y = __display_scale_x;
-				var _gui_x_scale = global.res_h / global.gui_h;
-				var _gui_y_scale = _gui_x_scale;
 			} else {
 				__display_scale_x = stanncam_get_res_scale_x();
 				__display_scale_y = __display_scale_x;
-				var _gui_x_scale = global.res_w / global.gui_w;
-				var _gui_y_scale = _gui_x_scale;
 			}
 		} else {
 			__display_scale_x = stanncam_get_res_scale_x();
 			__display_scale_y = stanncam_get_res_scale_y();
-			var _gui_x_scale = global.res_w / global.gui_w;
-			var _gui_y_scale = global.res_h / global.gui_h;
-		}
-		display_set_gui_maximize(_gui_x_scale, _gui_y_scale, stanncam_ratio_compensate_x(), stanncam_ratio_compensate_y());
+        
+    		if(stanncam_get_gui_keep_aspect_ratio()){
+                global.gui_w *= (_gui_x_scale / _gui_y_scale);
+                _gui_x_scale = _gui_y_scale;
+            }
+        } 
+        display_set_gui_maximize(_gui_x_scale , _gui_y_scale, stanncam_ratio_compensate_x(), stanncam_ratio_compensate_y());
 	}
 }
 

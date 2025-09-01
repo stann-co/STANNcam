@@ -1,11 +1,11 @@
 {
   "$GMObject":"",
-  "%Name":"obj_stanncam_zone_u",
+  "%Name":"obj_stanncam_zone_blank",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_stanncam_zone_u",
+  "name":"obj_stanncam_zone_blank",
   "overriddenProperties":[],
   "parent":{
     "name":"Zones",
@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_stanncam_zone_u",
-    "path":"sprites/spr_stanncam_zone_u/spr_stanncam_zone_u.yy",
+    "name":"spr_stanncam_zone",
+    "path":"sprites/spr_stanncam_zone/spr_stanncam_zone.yy",
   },
   "spriteMaskId":null,
   "visible":true,

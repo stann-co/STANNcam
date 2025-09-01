@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"stanncam_resolution_presets",
   "isCompatibility":false,
   "isDnD":false,

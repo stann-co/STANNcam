@@ -6,6 +6,7 @@ zoom_mode = 0;
 zoom_text = cam1.zoom_amount
 
 game_res = 0;
+
 resolutions = [
 	{w:400, h:400}, //1:1
 	{w:500, h:250}, //2:1

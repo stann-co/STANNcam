@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"stanncam_animcurve",
   "isCompatibility":false,
   "isDnD":false,
