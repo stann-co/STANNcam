@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"stanncam_manager",
   "isCompatibility":false,
   "isDnD":false,

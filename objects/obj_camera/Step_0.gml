@@ -22,16 +22,6 @@ if(keyboard_check_pressed(vk_f5)){
 	}
 }
 
-//toggle hires gui
-if(keyboard_check_pressed(vk_alt)){
-	gui_hires = !gui_hires;
-	if(gui_hires){
-		stanncam_set_gui_resolution(1920, 1080);
-	} else {
-		stanncam_set_gui_resolution(global.game_w, global.game_h);
-	}
-}
-
 //moves camera to mouse press location
 if(mouse_check_button_pressed(mb_left)){
 	var _x = cam1.get_mouse_x();
@@ -40,8 +30,8 @@ if(mouse_check_button_pressed(mb_left)){
 	cam1.move(_x, _y, GAME_SPEED * 1);
 	alarm[0] = GAME_SPEED * 1.1;
 	pointer = true;
-	pointer_x = cam1.get_mouse_x();
-	pointer_y = cam1.get_mouse_y();
+	pointer_x = _x;
+	pointer_y = _y;
 }
 
 //toggle zoom in
@@ -126,10 +116,27 @@ if(keyboard_check_pressed(vk_f1))
 //switch gui resolutions
 if(keyboard_check_pressed(vk_f2)){
 	gui_res++
-	if(gui_res > 6) gui_res = 0;
-	var _gui_w = resolutions[gui_res].w;
-	var _gui_h = resolutions[gui_res].h;
-	stanncam_set_gui_resolution(_gui_w, _gui_h);
+	if(gui_res >= array_length(gui_resolutions)) gui_res = 0;
+	var _gui_w = gui_resolutions[gui_res].w;
+	var _gui_h = gui_resolutions[gui_res].h;
+    if(gui_hires){
+        stanncam_set_gui_resolution(_gui_w*gui_hires_scale, _gui_h*gui_hires_scale);
+    } else {
+        stanncam_set_gui_resolution(_gui_w, _gui_h);    
+    }
+}
+
+//toggle hires gui
+if(keyboard_check_pressed(vk_alt)){
+	gui_hires = !gui_hires;
+    
+	var _gui_w = gui_resolutions[gui_res].w;
+	var _gui_h = gui_resolutions[gui_res].h;
+    if(gui_hires){
+        stanncam_set_gui_resolution(_gui_w*gui_hires_scale, _gui_h*gui_hires_scale);
+    } else {
+        stanncam_set_gui_resolution(_gui_w, _gui_h);    
+    }
 }
 
 //toggle keep aspect ratio

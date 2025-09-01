@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"stanncam_macros",
   "isCompatibility":false,
   "isDnD":false,
