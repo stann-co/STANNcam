@@ -518,7 +518,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description returns the room x position as the position on the display relative to camera
 	/// @param {Real} _x
 	/// @returns {Real}
-	function room_to_display_x(_x){
+	static room_to_display_x = function(_x){
 		var _display_x = _x - __constrain_offset_x - __constrain_frac_x;
         return __room_to_view_x(_display_x) * stanncam_get_res_scale_x() + stanncam_ratio_compensate_x() - 1;
 	}
@@ -527,7 +527,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description returns the room y position as the position on the display relative to camera
 	/// @param {Real} _y
 	/// @returns {Real}
-	function room_to_display_y(_y){
+	static room_to_display_y = function(_y){
 		var _display_y = _y - __constrain_offset_y - __constrain_frac_y;
         return __room_to_view_y(_display_y) * stanncam_get_res_scale_y() + stanncam_ratio_compensate_y() - 1;
 	}
