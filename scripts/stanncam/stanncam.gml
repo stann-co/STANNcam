@@ -531,7 +531,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		var _display_y = _y - __constrain_offset_y - __constrain_frac_y;
         return __room_to_view_y(_display_y) * stanncam_get_res_scale_y() + stanncam_ratio_compensate_y() - 1;
 	}
-	
+
 	/// @function out_of_bounds
 	/// @description returns if the position is outside of camera bounds
 	/// @param {Real} _x
@@ -885,13 +885,13 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 				var _pre_color = draw_get_color();
                 
                 //this needs changing
-				var x_offset = -offset_x - __constrain_offset_x - (__zone_constrain_x * __zone_constrain_amount) + zoom_x;
-				var y_offset = -offset_y - __constrain_offset_y - (__zone_constrain_y * __zone_constrain_amount) + zoom_y;
+				var _x_offset = -offset_x - __constrain_offset_x - (__zone_constrain_x * __zone_constrain_amount) + zoom_x;
+				var _y_offset = -offset_y - __constrain_offset_y - (__zone_constrain_y * __zone_constrain_amount) + zoom_y;
 				
-				var _x1 = (width * 0.5) - bounds_w + x_offset;
-				var _x2 = (width * 0.5) + bounds_w + x_offset;
-				var _y1 = (height * 0.5) - bounds_h + y_offset;
-				var _y2 = (height * 0.5) + bounds_h + y_offset;
+				var _x1 = (width * 0.5) - bounds_w + _x_offset;
+				var _x2 = (width * 0.5) + bounds_w + _x_offset;
+				var _y1 = (height * 0.5) - bounds_h + _y_offset;
+				var _y2 = (height * 0.5) + bounds_h + _y_offset;
 				draw_set_color(c_white);
 				draw_rectangle(_x1, _y1, _x2, _y2, true);
 				

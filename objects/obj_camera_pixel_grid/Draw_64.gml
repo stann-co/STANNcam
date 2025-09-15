@@ -1,14 +1,14 @@
 //draw circle over cursor pos
 
-var dx = cam1.get_mouse_x();
-var dy = cam1.get_mouse_y();
-var size = 10;
+var _dx = cam1.get_mouse_x();
+var _dy = cam1.get_mouse_y();
+var _size = 10;
 
-dx = cam1.room_to_gui_x(dx);
-dy = cam1.room_to_gui_y(dy);
+_dx = cam1.room_to_gui_x(_dx);
+_dy = cam1.room_to_gui_y(_dy);
 
-draw_line(dx - size, dy, dx + size, dy);
-draw_line(dx, dy - size, dx, dy + size);
+draw_line(_dx - _size, _dy, _dx + _size, _dy);
+draw_line(_dx, _dy - _size, _dx, _dy + _size);
 
 var _outline_width = 1;
 var _precision = 8;
@@ -49,7 +49,7 @@ switch (global.window_mode) {
 
 draw_text_outline(global.gui_w - 1, _offset * 3, "window mode: " + _window_mode_text + " [F4]", _outline_width, _precision);
 
-var mx = cam1.room_to_gui_x(cam1.get_mouse_x());
-var my = cam1.room_to_gui_y(cam1.get_mouse_y());
+var _mx = cam1.room_to_gui_x(cam1.get_mouse_x());
+var _my = cam1.room_to_gui_y(cam1.get_mouse_y());
 draw_set_halign(fa_left);
-draw_text(mx, my, $"{mx} {my}");
+draw_text(_mx, _my, $"{_mx} {_my}");
