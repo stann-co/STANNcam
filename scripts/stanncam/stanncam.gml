@@ -531,17 +531,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		var _display_y = _y - __constrain_offset_y - __constrain_frac_y;
         return __room_to_view_y(_display_y) * stanncam_get_res_scale_y() + stanncam_ratio_compensate_y() - 1;
 	}
-    
-    /// @function get_active_zone
-	/// @description returns the active zone the followed instance is within, noone if outside, or no instance is followed
-	/// @returns {Id.Instance|Noone}
-	/// @ignore
-	static get_active_zone = function(){
-		if(__zone_active){
-			return __zone;
-		}
-		return noone;
-	}
 	
 	/// @function out_of_bounds
 	/// @description returns if the position is outside of camera bounds
