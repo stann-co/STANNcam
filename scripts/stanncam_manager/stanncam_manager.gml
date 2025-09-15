@@ -34,7 +34,7 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	global.res_h = _resolution_h;
 	global.window_mode = _window_mode;
     
-    __obj_stanncam_manager.__gui_res_w = global.gui_w; 
+    __obj_stanncam_manager.__gui_res_w = global.gui_w;
     __obj_stanncam_manager.__gui_res_h = global.gui_h;
 	
 	var _len = array_length(view_camera);
@@ -44,7 +44,7 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	
 	application_surface_draw_enable(false);
 	
-    stanncam_set_resolution(_resolution_w,_resolution_h); 
+    stanncam_set_resolution(_resolution_w, _resolution_h);
     stanncam_set_window_mode(_window_mode);
 	
 	//check if stanncam manager has been deactivated and if so throw an error
@@ -261,7 +261,7 @@ function __stanncam_update_resolution(){
 	
 	with(__obj_stanncam_manager){
         
-        var _gui_x_scale = global.res_w / __gui_res_w; 
+        var _gui_x_scale = global.res_w / __gui_res_w;
         var _gui_y_scale = global.res_h / __gui_res_h;
 
         global.gui_w = __gui_res_w;
@@ -284,8 +284,13 @@ function __stanncam_update_resolution(){
                 global.gui_w *= (_gui_x_scale / _gui_y_scale);
                 _gui_x_scale = _gui_y_scale;
             }
-        } 
-        display_set_gui_maximize(_gui_x_scale , _gui_y_scale, stanncam_ratio_compensate_x(), stanncam_ratio_compensate_y());
+        }
+        display_set_gui_maximize(
+			_gui_x_scale,
+			_gui_y_scale,
+			stanncam_ratio_compensate_x(),
+			stanncam_ratio_compensate_y()
+		);
 	}
 }
 

@@ -12,7 +12,7 @@ if(image_angle mod 90 != 0){
 
 included_zones = [];
 
-if(instance_exists(included_zone1)) array_push(included_zones,included_zone1);
-if(instance_exists(included_zone2)) array_push(included_zones,included_zone2);
-if(instance_exists(included_zone3)) array_push(included_zones,included_zone3);
-if(instance_exists(included_zone4)) array_push(included_zones,included_zone4);
+if(instance_exists(included_zone1)) array_push(included_zones, included_zone1);
+if(instance_exists(included_zone2)) array_push(included_zones, included_zone2);
+if(instance_exists(included_zone3)) array_push(included_zones, included_zone3);
+if(instance_exists(included_zone4)) array_push(included_zones, included_zone4);

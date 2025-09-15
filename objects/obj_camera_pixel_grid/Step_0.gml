@@ -66,10 +66,10 @@ if(keyboard_check_pressed(vk_f4)){
 var _hinput = keyboard_check(vk_right) - keyboard_check(vk_left);
 var _vinput = keyboard_check(vk_down) - keyboard_check(vk_up);
 
-if(_hinput != 0) hspd += _hinput*acceleration_spd;
+if(_hinput != 0) hspd += _hinput * acceleration_spd;
 else hspd -= min(abs(hspd), deacceleration_spd) * sign(hspd);
 
-if(_vinput != 0) vspd += _vinput*acceleration_spd;
+if(_vinput != 0) vspd += _vinput * acceleration_spd;
 else vspd -= min(abs(vspd), deacceleration_spd) * sign(vspd);
 
 hspd = clamp(hspd, -max_spd, max_spd);

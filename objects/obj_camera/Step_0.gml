@@ -120,9 +120,9 @@ if(keyboard_check_pressed(vk_f2)){
 	var _gui_w = gui_resolutions[gui_res].w;
 	var _gui_h = gui_resolutions[gui_res].h;
     if(gui_hires){
-        stanncam_set_gui_resolution(_gui_w*gui_hires_scale, _gui_h*gui_hires_scale);
+        stanncam_set_gui_resolution(_gui_w * gui_hires_scale, _gui_h * gui_hires_scale);
     } else {
-        stanncam_set_gui_resolution(_gui_w, _gui_h);    
+        stanncam_set_gui_resolution(_gui_w, _gui_h);
     }
 }
 
@@ -133,9 +133,9 @@ if(keyboard_check_pressed(vk_alt)){
 	var _gui_w = gui_resolutions[gui_res].w;
 	var _gui_h = gui_resolutions[gui_res].h;
     if(gui_hires){
-        stanncam_set_gui_resolution(_gui_w*gui_hires_scale, _gui_h*gui_hires_scale);
+        stanncam_set_gui_resolution(_gui_w * gui_hires_scale, _gui_h * gui_hires_scale);
     } else {
-        stanncam_set_gui_resolution(_gui_w, _gui_h);    
+        stanncam_set_gui_resolution(_gui_w, _gui_h);
     }
 }
 
