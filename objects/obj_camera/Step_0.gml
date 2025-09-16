@@ -119,24 +119,24 @@ if(keyboard_check_pressed(vk_f2)){
 	if(gui_res >= array_length(gui_resolutions)) gui_res = 0;
 	var _gui_w = gui_resolutions[gui_res].w;
 	var _gui_h = gui_resolutions[gui_res].h;
-    if(gui_hires){
-        stanncam_set_gui_resolution(_gui_w * gui_hires_scale, _gui_h * gui_hires_scale);
-    } else {
-        stanncam_set_gui_resolution(_gui_w, _gui_h);
-    }
+	if(gui_hires){
+		stanncam_set_gui_resolution(_gui_w * gui_hires_scale, _gui_h * gui_hires_scale);
+	} else {
+		stanncam_set_gui_resolution(_gui_w, _gui_h);
+	}
 }
 
 //toggle hires gui
 if(keyboard_check_pressed(vk_alt)){
 	gui_hires = !gui_hires;
-    
+	
 	var _gui_w = gui_resolutions[gui_res].w;
 	var _gui_h = gui_resolutions[gui_res].h;
-    if(gui_hires){
-        stanncam_set_gui_resolution(_gui_w * gui_hires_scale, _gui_h * gui_hires_scale);
-    } else {
-        stanncam_set_gui_resolution(_gui_w, _gui_h);
-    }
+	if(gui_hires){
+		stanncam_set_gui_resolution(_gui_w * gui_hires_scale, _gui_h * gui_hires_scale);
+	} else {
+		stanncam_set_gui_resolution(_gui_w, _gui_h);
+	}
 }
 
 //toggle keep aspect ratio
