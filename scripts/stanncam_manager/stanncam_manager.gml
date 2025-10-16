@@ -33,9 +33,9 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	global.res_w = _resolution_w;
 	global.res_h = _resolution_h;
 	global.window_mode = _window_mode;
-	
-	__obj_stanncam_manager.__gui_res_w = global.gui_w;
-	__obj_stanncam_manager.__gui_res_h = global.gui_h;
+    
+    __obj_stanncam_manager.__gui_res_w = global.gui_w; 
+    __obj_stanncam_manager.__gui_res_h = global.gui_h;
 	
 	var _len = array_length(view_camera);
 	for (var i = 0; i < _len; ++i){
@@ -44,8 +44,8 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	
 	application_surface_draw_enable(false);
 	
-	stanncam_set_resolution(_resolution_w, _resolution_h);
-	stanncam_set_window_mode(_window_mode);
+    stanncam_set_resolution(_resolution_w,_resolution_h); 
+    stanncam_set_window_mode(_window_mode);
 	
 	//check if stanncam manager has been deactivated and if so throw an error
 	global.stanncam_time_source = time_source_create(time_source_global, 1, time_source_units_frames, function(){
@@ -260,13 +260,13 @@ function __stanncam_update_resolution(){
 	}
 	
 	with(__obj_stanncam_manager){
-		
-		var _gui_x_scale = global.res_w / __gui_res_w;
-		var _gui_y_scale = global.res_h / __gui_res_h;
+        
+        var _gui_x_scale = global.res_w / __gui_res_w; 
+        var _gui_y_scale = global.res_h / __gui_res_h;
 
-		global.gui_w = __gui_res_w;
-		global.gui_h = __gui_res_h;
-		
+        global.gui_w = __gui_res_w;
+        global.gui_h = __gui_res_h;
+        
 		if(stanncam_get_keep_aspect_ratio()){
 			var _ratio = (global.res_w / global.res_h) / (global.game_w / global.game_h);
 			if(_ratio > 1){
@@ -279,18 +279,13 @@ function __stanncam_update_resolution(){
 		} else {
 			__display_scale_x = stanncam_get_res_scale_x();
 			__display_scale_y = stanncam_get_res_scale_y();
-		
-			if(stanncam_get_gui_keep_aspect_ratio()){
-				global.gui_w *= (_gui_x_scale / _gui_y_scale);
-				_gui_x_scale = _gui_y_scale;
-			}
-		}
-		display_set_gui_maximize(
-			_gui_x_scale,
-			_gui_y_scale,
-			stanncam_ratio_compensate_x(),
-			stanncam_ratio_compensate_y()
-		);
+        
+    		if(stanncam_get_gui_keep_aspect_ratio()){
+                global.gui_w *= (_gui_x_scale / _gui_y_scale);
+                _gui_x_scale = _gui_y_scale;
+            }
+        } 
+        display_set_gui_maximize(_gui_x_scale , _gui_y_scale, stanncam_ratio_compensate_x(), stanncam_ratio_compensate_y());
 	}
 }
 
