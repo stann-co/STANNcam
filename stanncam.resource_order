@@ -1,5 +1,6 @@
 {
   "FolderOrderSettings":[
+    {"name":"shaders","order":2,"path":"folders/shaders.yy",},
     {"name":"Sprites","order":3,"path":"folders/STANNcam/Miscellaneous/Sprites.yy",},
     {"name":"Zones","order":5,"path":"folders/STANNcam/Zones.yy",},
   ],

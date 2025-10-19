@@ -5,7 +5,7 @@ for (var i = 0; i < _len; ++i){
 }
 
 //constantly checks if the window is being resized and changes the resolution to match
-if(global.window_mode == STANNCAM_WINDOW_MODE.WINDOWED && (resize_width != window_get_width() || resize_height != window_get_height())){
+if(global.window_mode == STANNCAM_WINDOW_MODE.WINDOWED && !__switching_window_mode && (resize_width != window_get_width() || resize_height != window_get_height())){
 	resize_width = window_get_width();
 	resize_height = window_get_height();
 	

@@ -11,6 +11,7 @@
   "defaultScriptType":1,
   "Folders":[
     {"$GMFolder":"","%Name":"Fonts","folderPath":"folders/Fonts.yy","name":"Fonts","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"shaders","folderPath":"folders/shaders.yy","name":"shaders","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"sidescroller","folderPath":"folders/Objects/sidescroller.yy","name":"sidescroller","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"topdown","folderPath":"folders/Objects/topdown.yy","name":"topdown","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -74,6 +75,7 @@
     {"id":{"name":"stanncam_resolution_presets","path":"scripts/stanncam_resolution_presets/stanncam_resolution_presets.yy",},},
     {"id":{"name":"stanncam_shake","path":"scripts/stanncam_shake/stanncam_shake.yy",},},
     {"id":{"name":"stanncam","path":"scripts/stanncam/stanncam.yy",},},
+    {"id":{"name":"sh_tv","path":"shaders/sh_tv/sh_tv.yy",},},
     {"id":{"name":"spr_arrow_small","path":"sprites/spr_arrow_small/spr_arrow_small.yy",},},
     {"id":{"name":"spr_arrow","path":"sprites/spr_arrow/spr_arrow.yy",},},
     {"id":{"name":"spr_ball","path":"sprites/spr_ball/spr_ball.yy",},},

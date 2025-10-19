@@ -20,10 +20,9 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
     
 	__camera = camera_create();
 	view_camera[cam_id] = __camera;
-	
-	++__obj_stanncam_manager.number_of_cams;
-	
+    
 	global.stanncams[cam_id] = self;
+    ++__obj_stanncam_manager.number_of_cams;
 #endregion
 
 #region variables
@@ -302,30 +301,32 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		#endregion
 		
 		#region zooming
-			if(__zooming || __size_change){
-				if(__size_change){
-					//gradually resizes camera
-					width = stanncam_animcurve(__dimen_t, __wStart, __wTo, __dimen_duration, anim_curve_size);
-					height = stanncam_animcurve(__dimen_t, __hStart, __hTo, __dimen_duration, anim_curve_size);
-					
-					__dimen_t++;
-					
-					if(width == __wTo && height == __hTo) __size_change = false;
-				}
-				
-				if(__zooming){
-					//gradually zooms camera
-					zoom_amount = stanncam_animcurve(__t_zoom, __zoomStart, __zoomTo, __zoom_duration, anim_curve_zoom);
-                    
-					__t_zoom++;
-					
-					if(zoom_amount == __zoomTo) __zooming = false;
-				}
-			}
+        if(__zooming || __size_change){
+            if(__size_change){
+                //gradually resizes camera
+                width = stanncam_animcurve(__dimen_t, __wStart, __wTo, __dimen_duration, anim_curve_size);
+                height = stanncam_animcurve(__dimen_t, __hStart, __hTo, __dimen_duration, anim_curve_size);
+                
+                __dimen_t++;
+                
+                if(width == __wTo && height == __hTo) __size_change = false;
+            }
+            
+            if(__zooming){
+                
+                //gradually zooms camera
+                zoom_amount = stanncam_animcurve(__t_zoom, __zoomStart, __zoomTo, __zoom_duration, anim_curve_zoom);
+                
+                __t_zoom++;
+                
+                if(zoom_amount == __zoomTo) __zooming = false;
+                
+            }
+        }
 		#endregion
-		
-		__update_view_size();
+        
 		__update_view_pos();
+        __update_view_size();
 	}
 #endregion
 	
@@ -723,15 +724,26 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @ignore
 	static __predraw = function(){
 		__check_surface();
-		if(surface_extra_on){
-			surface_copy(surface_extra, 0, 0, surface);
-		}
-        
+
 		surface_set_target(surface);
 		draw_clear_alpha(c_black, 0);
 		surface_reset_target()
 		view_set_surface_id(cam_id, surface);
 	}
+    
+    static __postdraw = function(){
+        if(surface_extra_on){
+            var _left = 0;
+            var _top = 0;
+            
+            if(zoom_amount > 1){
+                _left -= width /2;
+                _top -= height/2;
+            }
+            
+            surface_copy(surface_extra, _left, _left, surface);
+		}
+    }
     
 	/// @function __update_view_size
 	/// @description updates the view size
@@ -929,8 +941,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
         } else if (__constrain_offset_y < 0){
             __constrain_offset_y = ceil(__constrain_offset_y);
         }
-        
-        show_debug_message($"frac_x {__constrain_frac_x} frac_y {__constrain_frac_y}")
         
         #endregion
         

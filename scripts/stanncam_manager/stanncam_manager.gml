@@ -81,7 +81,6 @@ function stanncam_destroy(_application_surface_draw_enable=true){
 function stanncam_set_resolution(_resolution_w, _resolution_h){
 	__obj_stanncam_manager.display_res_w = _resolution_w;
 	__obj_stanncam_manager.display_res_h = _resolution_h;
-	window_set_size(_resolution_w, _resolution_h);
 	__stanncam_update_resolution();
 }
 
@@ -90,14 +89,12 @@ function stanncam_set_resolution(_resolution_w, _resolution_h){
 /// @description set game to be windowed/fullscreen/borderless
 function stanncam_set_window_mode(_window_mode){
 	global.window_mode = _window_mode;
+    __obj_stanncam_manager.__switching_window_mode = true;
 	switch (_window_mode) {
 		case STANNCAM_WINDOW_MODE.WINDOWED:
 			window_set_fullscreen(false);
 			window_set_showborder(true);
-			
-			window_set_size(__obj_stanncam_manager.display_res_w, __obj_stanncam_manager.display_res_h);
-			__stanncam_center(20, 20);
-			
+            __stanncam_center(20,20);
 			break;
 		case STANNCAM_WINDOW_MODE.FULLSCREEN:
 			window_set_fullscreen(true);
@@ -109,6 +106,7 @@ function stanncam_set_window_mode(_window_mode){
 			break;
 	}
 	call_later(10, time_source_units_frames, function(){
+        __obj_stanncam_manager.__switching_window_mode = false;
 		__stanncam_update_resolution();
 	});
 }
@@ -241,7 +239,7 @@ function __stanncam_update_resolution(){
 			__stanncam_center();
 			break;
 		//windowed
-		case STANNCAM_WINDOW_MODE.WINDOWED:
+		case STANNCAM_WINDOW_MODE.WINDOWED: 
 			if(__obj_stanncam_manager.keep_aspect_ratio){
 				var _res_ratio = (__obj_stanncam_manager.display_res_w / __obj_stanncam_manager.display_res_h) / (global.game_w / global.game_h);
 				var _game_ratio = global.game_w / global.game_h;
@@ -256,6 +254,8 @@ function __stanncam_update_resolution(){
 				global.res_w = __obj_stanncam_manager.display_res_w;
 				global.res_h = __obj_stanncam_manager.display_res_h;
 			}
+        	
+            window_set_size(__obj_stanncam_manager.display_res_w, __obj_stanncam_manager.display_res_h);
 			break;
 	}
 	
