@@ -351,7 +351,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} [_duration=0]
 	/// @ignore
 	static move = function(_x, _y, _duration=0){
-		if(_duration == 0 && !instance_exists(follow)){
+		if(_duration == 0){
 			//view position is updated immediately
 			x = _x;
 			y = _y;

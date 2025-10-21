@@ -1,4 +1,4 @@
-tv = new stanncam(0, 0, 56, 56, true);
+tv = new stanncam(0, 0, 56, 56, true, false);
 
 tv.follow = obj_player2;
 tv.bounds_h = 1;
