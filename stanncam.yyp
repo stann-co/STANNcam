@@ -11,12 +11,12 @@
   "defaultScriptType":1,
   "Folders":[
     {"$GMFolder":"","%Name":"Fonts","folderPath":"folders/Fonts.yy","name":"Fonts","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"shaders","folderPath":"folders/shaders.yy","name":"shaders","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"sidescroller","folderPath":"folders/Objects/sidescroller.yy","name":"sidescroller","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"topdown","folderPath":"folders/Objects/topdown.yy","name":"topdown","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"shaders","folderPath":"folders/shaders.yy","name":"shaders","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"BG","folderPath":"folders/Sprites/BG.yy","name":"BG","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Layers","folderPath":"folders/Sprites/BG/Layers.yy","name":"Layers","resourceType":"GMFolder","resourceVersion":"2.0",},

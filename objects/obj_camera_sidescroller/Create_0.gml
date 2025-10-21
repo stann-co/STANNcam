@@ -1,22 +1,30 @@
 //camera
-game_res = stanncam_get_preset_resolution(STANNCAM_RES_PRESETS.GAME_BOY_ADVANCE_160P);
-resolution = stanncam_get_preset_resolution(STANNCAM_RES_PRESETS.DESKTOP_1080P);
+resolutions = [
+	{width:400,  height:400}, //1:1
+	{width:500,  height:250}, //2:1
+	{width:320,  height:180}, //16:9
+	{width:640,  height:360},
+	{width:1280, height:720},
+	{width:1920, height:1080},
+	{width:2560, height:1440}
+];
 
-resolution_array = stanncam_get_preset_resolution_range(STANNCAM_RES_PRESETS.DESKTOP_720P, STANNCAM_RES_PRESETS.DESKTOP_4K);
-array_insert(resolution_array, 0, //adds custom resolution to the array
-	{
-		width: 400,
-		height: 400
-	}
-);
+gui_resolutions = [
+	{width:320,  height:180}, //16:9
+	{width:640,  height:360},
+	{width:1280, height:720}
+];
 
-gui_resolution_array = stanncam_get_preset_resolution_range(); //gets all the presets
+game_res = 4;
+gui_res = 1;
 
-stanncam_init(game_res.width, game_res.height, 1920, 1080);
+stanncam_init(resolutions[2].width, resolutions[2].height, resolutions[game_res].width, resolutions[game_res].height,gui_resolutions[gui_res].width, gui_resolutions[gui_res].height);
 
 cam1 = new stanncam(obj_player_sidescroller.x, obj_player_sidescroller.y, global.game_w, global.game_h);
 cam1.follow = obj_player_sidescroller;
 cam1.room_constrain = true;
+
+cam1.debug_draw = true;
 
 cam2 = cam1.clone();
 cam2.follow = obj_player_sidescroller2;
@@ -30,9 +38,9 @@ zoom_text = cam1.zoom_amount;
 speed_mode = 1;
 zoom_mode = 1;
 
-game_res = 2;
 gui_hires = false;
-gui_res = 0;
+gui_hires_scale = 6; //how much bigger the hires font is than the pixel one
+
 
 lookahead = false;
 
@@ -47,9 +55,9 @@ parallax_bg = function(_cam){
 	var _scaley = stanncam_get_res_scale_y();
 	
 	//the offset the camera is from the middle of the room
-	var _offset_x = (-_cam.get_x() - _cam.x_frac) * _scalex;
-	var _pos_x = -200 + _cam.x_frac;
-	var _pos_y = 0 + _cam.y_frac;
+	var _offset_x = -_cam.get_x();
+	var _pos_x = -200;
+	var _pos_y = 0;
 	
 	draw_sprite_ext_tiled(spr_underwater_layer00, 0, _pos_x + (_offset_x * 0.0), _pos_y, 2, 1, _scalex, _scaley);
 	draw_sprite_ext_tiled(spr_underwater_layer01, 0, _pos_x + (_offset_x * 0.2), _pos_y, 2, 1, _scalex, _scaley);

@@ -1,14 +1,3 @@
-
-//toggle hires gui
-if(keyboard_check_pressed(vk_alt)){
-	gui_hires = !gui_hires;
-	if(gui_hires){
-		stanncam_set_gui_resolution(1920, 1080);
-	} else {
-		stanncam_set_gui_resolution(global.game_w, global.game_h);
-	}
-}
-
 //toggle zoom in
 if(mouse_check_button_pressed(mb_right)){
 	zoom_mode++;
@@ -89,19 +78,37 @@ if(keyboard_check_pressed(ord("Z"))){
 //switch resolutions
 if(keyboard_check_pressed(vk_f1)){
 	game_res++;
-	if(game_res >= array_length(resolution_array)) game_res = 0;
-	var _res_w = resolution_array[game_res].width;
-	var _res_h = resolution_array[game_res].height;
+	if(game_res >= array_length(resolutions)) game_res = 0;
+	var _res_w = resolutions[game_res].width;
+	var _res_h = resolutions[game_res].height;
 	stanncam_set_resolution(_res_w, _res_h);
 }
 
 //switch gui resolutions
 if(keyboard_check_pressed(vk_f2)){
 	gui_res++;
-	if(gui_res >= 6) gui_res = 0;
-	var _gui_w = gui_resolution_array[gui_res].width;
-	var _gui_h = gui_resolution_array[gui_res].height;
-	stanncam_set_gui_resolution(_gui_w, _gui_h);
+	if(gui_res >= array_length(gui_resolutions)) gui_res = 0;
+    
+	var _gui_w = gui_resolutions[gui_res].width;
+	var _gui_h = gui_resolutions[gui_res].height;
+    if(gui_hires){
+        stanncam_set_gui_resolution(_gui_w*gui_hires_scale, _gui_h*gui_hires_scale);
+    } else {
+        stanncam_set_gui_resolution(_gui_w, _gui_h);    
+    }
+}
+
+//toggle hires gui
+if(keyboard_check_pressed(vk_alt)){
+	gui_hires = !gui_hires;
+    
+	var _gui_w = gui_resolutions[gui_res].width;
+	var _gui_h = gui_resolutions[gui_res].height;
+    if(gui_hires){
+        stanncam_set_gui_resolution(_gui_w*gui_hires_scale, _gui_h*gui_hires_scale);
+    } else {
+        stanncam_set_gui_resolution(_gui_w, _gui_h);    
+    }
 }
 
 //toggle keep aspect ratio

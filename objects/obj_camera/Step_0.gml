@@ -52,8 +52,8 @@ if(mouse_check_button_pressed(mb_right)){
 			break;
 		case 2:
 			//zoom out
-			cam1.zoom(2, GAME_SPEED * 1);
-			obj_tv.tv.zoom(2, GAME_SPEED * 1);
+			cam1.zoom(3, GAME_SPEED * 1);
+			obj_tv.tv.zoom(3, GAME_SPEED * 1);
 			break;
 	}
 }
