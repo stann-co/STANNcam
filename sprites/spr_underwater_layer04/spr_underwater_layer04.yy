@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_underwater_layer04",
   "bboxMode":0,
   "bbox_bottom":269,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"e75f2776-0535-42b1-9db1-ec75b507bb7a","name":"e75f2776-0535-42b1-9db1-ec75b507bb7a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"e75f2776-0535-42b1-9db1-ec75b507bb7a","name":"e75f2776-0535-42b1-9db1-ec75b507bb7a","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

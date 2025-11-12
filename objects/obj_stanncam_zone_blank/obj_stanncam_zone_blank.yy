@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_stanncam_zone",
-    "path":"sprites/spr_stanncam_zone/spr_stanncam_zone.yy",
+    "name":"spr_stanncam_zone_connector",
+    "path":"sprites/spr_stanncam_zone_connector/spr_stanncam_zone_connector.yy",
   },
   "spriteMaskId":null,
   "visible":true,
