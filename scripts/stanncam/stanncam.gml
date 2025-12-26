@@ -146,6 +146,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	
 	/// @function __step
 	/// @description gets called every step
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static __step = function(){
 
@@ -268,6 +269,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		
 		__update_view_size();
 		__update_view_pos();
+
+		return self;
 	}
 #endregion
 	
@@ -303,6 +306,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _x
 	/// @param {Real} _y
 	/// @param {Real} [_duration=0]
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static move = function(_x, _y, _duration=0){
 		if(_duration == 0 && !instance_exists(follow)){
@@ -320,6 +324,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			__yTo = _y;
 			__duration = _duration;
 		}
+
+		return self;
 	}
 	
 	/// @function set_size
@@ -327,6 +333,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _width
 	/// @param {Real} _height
 	/// @param {Real} [_duration=0]
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static set_size = function(_width, _height, _duration=0){
 		if(_duration == 0){ //if duration is 0 the view is updated immediately
@@ -343,6 +350,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			__hTo = _height;
 			__dimen_duration = _duration;
 		}
+
+		return self;
 	}
 	
 	/// @function offset
@@ -350,6 +359,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _offset_x
 	/// @param {Real} _offset_y
 	/// @param {Real} [_duration=0]
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static offset = function(_offset_x, _offset_y, _duration=0){
 		if(_duration == 0){ //if duration is 0 the view is updated immediately
@@ -366,12 +376,15 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			__offset_yTo = _offset_y;
 			__offset_duration = _duration;
 		}
+
+		return self;
 	}
 	
 	/// @function zoom
 	/// @description zooms the camera over a duration
 	/// @param {Real} _zoom
 	/// @param {Real} [_duration=0]
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static zoom = function(_zoom, _duration=0){
 		if(_duration == 0){ //if duration is 0 the view is updated immediately
@@ -393,6 +406,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			__zoomTo = _zoom;
 			__zoom_duration = _duration;
 		}
+
+		return self;
 	}
 	
 	/// @function get_zoom_x
@@ -415,28 +430,34 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description makes the camera shake
 	/// @param {Real} _magnitude
 	/// @param {Real} _duration - duration in frames
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static shake_screen = function(_magnitude, _duration){
 		__shake_magnitude = _magnitude;
 		__shake_length = _duration;
 		__shake_time = 0;
+		return self;
 	}
 	
 	/// @function set_speed
 	/// @description changes the speed of the camera
 	/// @param {Real} _spd - how fast the camera can move
 	/// @param {Real} _threshold - minimum distance for the speed to have full effect
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static set_speed = function(_spd, _threshold){
 		spd = _spd;
 		spd_threshold = _threshold;
+		return self;
 	}
 
 	/// @function set_paused
 	/// @description sets camera paused state
 	/// @param {Bool} _paused
+	/// @returns {Struct.stanncam}
 	static set_paused = function(_paused){
 		paused = _paused;
+		return self;
 	}
 
 	/// @function get_paused
@@ -448,8 +469,10 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 
 	/// @function toggle_paused
 	/// @description toggles the camera's paused state
+	/// @returns {Struct.stanncam}
 	static toggle_paused = function(){
 		set_paused(!get_paused());
+		return self;
 	}
 
 	/// @function get_x
@@ -581,16 +604,19 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	
 	/// @function __check_viewports
 	/// @description enables viewports and sets viewports size
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static __check_viewports = function(){
 		view_visible[cam_id] = true;
 		view_camera[cam_id] = __camera;
 		__check_surface();
 		__update_view_size(true);
+		return self;
 	}
 	
 	/// @function __check_surface
 	/// @description checks if surface & surface_extra exists and else creates it
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static __check_surface = function(){
 		if(use_app_surface){
@@ -604,6 +630,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		if(surface_extra_on && !surface_exists(surface_extra)){
 			surface_extra = surface_create(width, height);
 		}
+
+		return self;
 	}
 	
 	/// @function __predraw
@@ -624,6 +652,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function __update_view_size
 	/// @description updates the view size
 	/// @param {Bool} [_force=false]
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static __update_view_size = function(_force=false){
 		//if smooth_draw is off maintains pixel perfection even when zooming in and out
@@ -648,10 +677,13 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			surface_resize(surface,	_new_width, _new_height);
 			camera_set_view_size(__camera, _new_width, _new_height);
 		}
+
+		return self;
 	}
 
 	/// @function __update_view_pos
 	/// @description updates the view position
+	/// @returns {Struct.stanncam}
 	/// @ignore
 	static __update_view_pos = function(){
 		//update camera view
@@ -753,6 +785,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		}
 		
 		camera_set_view_pos(__camera, _new_x, _new_y);
+
+		return self;
 	}
 #endregion
 
