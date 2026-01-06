@@ -14,9 +14,9 @@ if(!split_screen){
 	cam1.draw(0, 0);
 } else {
 	//horizontal splitscreen
-	cam1.draw_special(parallax_bg1, 0, 0, _scalex, _scaley, _width * 0.5, _height);
+	cam1.draw_special(parallax_bg1, 0, 0, _scalex, _scaley, _width / 2, _height);
 	cam1.draw(0, 0);
 	
-	cam2.draw_special(parallax_bg2, global.game_w * 0.5, 0, _scalex, _scaley, _width * 0.5, _height);
-	cam2.draw(global.game_w * 0.5, 0);
+	cam2.draw_special(parallax_bg2, global.game_w / 2, 0, _scalex, _scaley, _width / 2, _height);
+	cam2.draw(global.game_w / 2, 0);
 }

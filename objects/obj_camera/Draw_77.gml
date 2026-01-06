@@ -1,6 +1,6 @@
 cam1.draw(0, 0);
 if(split_screen){
-	cam2.draw(global.game_w * 0.5, 0);
+	cam2.draw(global.game_w / 2, 0);
 }
 
 var _x = cam1.get_mouse_x();

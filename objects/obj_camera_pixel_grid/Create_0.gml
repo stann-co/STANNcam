@@ -1,6 +1,6 @@
 //camera
 stanncam_init(100, 100, 1920, 1080, 300, 300);
-cam1 = new stanncam(room_width * 0.5, room_height * 0.5, global.game_w, global.game_h, false, false);
+cam1 = new stanncam(room_width / 2, room_height / 2, global.game_w, global.game_h, false, false);
 
 zoom_mode = 0;
 zoom_text = cam1.zoom_amount;

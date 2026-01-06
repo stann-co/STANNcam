@@ -28,7 +28,7 @@ cam1.debug_draw = true;
 
 cam2 = cam1.clone();
 cam2.follow = obj_player_sidescroller2;
-cam2.set_size(global.game_w * 0.5, global.game_h, 0);
+cam2.set_size(global.game_w / 2, global.game_h, 0);
 
 split_screen = false;
 

@@ -12,7 +12,7 @@ if(keyboard_check_pressed(vk_f5)){
 	split_screen = !split_screen;
 	
 	if(split_screen){
-		cam1.set_size(global.game_w * 0.5, global.game_h);
+		cam1.set_size(global.game_w / 2, global.game_h);
 		
 		cam2 = cam1.clone();
 		cam2.follow = obj_player2;

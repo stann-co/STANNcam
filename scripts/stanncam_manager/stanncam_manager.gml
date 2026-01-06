@@ -164,7 +164,7 @@ function stanncam_get_gui_keep_aspect_ratio(){
 /// @returns {Real}
 function stanncam_ratio_compensate_x(){
 	if(stanncam_get_keep_aspect_ratio()){
-		return (window_get_width() - (global.game_w * __obj_stanncam_manager.__display_scale_x)) * 0.5;
+		return (window_get_width() - (global.game_w * __obj_stanncam_manager.__display_scale_x)) / 2;
 	}
 	return 0;
 }
@@ -174,7 +174,7 @@ function stanncam_ratio_compensate_x(){
 /// @returns {Real}
 function stanncam_ratio_compensate_y(){
 	if(stanncam_get_keep_aspect_ratio()){
-		return (window_get_height() - (global.game_h * __obj_stanncam_manager.__display_scale_y)) * 0.5;
+		return (window_get_height() - (global.game_h * __obj_stanncam_manager.__display_scale_y)) / 2;
 	}
 	return 0;
 }
@@ -307,8 +307,8 @@ function __stanncam_center(_x=0, _y=0){
 		array_delete(_display_data, i * 4, 4);
 	}
 	
-	var _middle_x = _wx + (_ww * 0.5);
-	var _middle_y = _wy + (_wh * 0.5);
+	var _middle_x = _wx + (_ww / 2);
+	var _middle_y = _wy + (_wh / 2);
 	
 	var _outside_view = true;
 	//checks which monitor the window is within
