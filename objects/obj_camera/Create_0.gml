@@ -32,13 +32,13 @@ resolutions = [
 	{w:640, h:360},
 	{w:1280, h:720},
 	{w:1920, h:1080},
-	{w:2560, h:1440}
+	{w:2560, h:1440},
 ];
 
 gui_resolutions = [
 	{w:320, h:180}, //16:9
 	{w:640, h:360},
-	{w:1280, h:720}
+	{w:1280, h:720},
 ];
 
 stanncam_debug_set_draw_zones(true);

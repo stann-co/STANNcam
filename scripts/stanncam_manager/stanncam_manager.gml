@@ -33,9 +33,9 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	global.res_w = _resolution_w;
 	global.res_h = _resolution_h;
 	global.window_mode = _window_mode;
-    
-    __obj_stanncam_manager.__gui_res_w = global.gui_w; 
-    __obj_stanncam_manager.__gui_res_h = global.gui_h;
+	
+	__obj_stanncam_manager.__gui_res_w = global.gui_w;
+	__obj_stanncam_manager.__gui_res_h = global.gui_h;
 	
 	var _len = array_length(view_camera);
 	for (var i = 0; i < _len; ++i){
@@ -44,8 +44,8 @@ function stanncam_init(_game_w, _game_h, _resolution_w=_game_w, _resolution_h=_g
 	
 	application_surface_draw_enable(false);
 	
-    stanncam_set_resolution(_resolution_w,_resolution_h); 
-    stanncam_set_window_mode(_window_mode);
+	stanncam_set_resolution(_resolution_w, _resolution_h);
+	stanncam_set_window_mode(_window_mode);
 	
 	//check if stanncam manager has been deactivated and if so throw an error
 	global.stanncam_time_source = time_source_create(time_source_global, 1, time_source_units_frames, function(){
@@ -89,12 +89,12 @@ function stanncam_set_resolution(_resolution_w, _resolution_h){
 /// @description set game to be windowed/fullscreen/borderless
 function stanncam_set_window_mode(_window_mode){
 	global.window_mode = _window_mode;
-    __obj_stanncam_manager.__switching_window_mode = true;
+	__obj_stanncam_manager.__switching_window_mode = true;
 	switch (_window_mode) {
 		case STANNCAM_WINDOW_MODE.WINDOWED:
 			window_set_fullscreen(false);
 			window_set_showborder(true);
-            __stanncam_center(20,20);
+			__stanncam_center(20, 20);
 			break;
 		case STANNCAM_WINDOW_MODE.FULLSCREEN:
 			window_set_fullscreen(true);
@@ -106,7 +106,7 @@ function stanncam_set_window_mode(_window_mode){
 			break;
 	}
 	call_later(10, time_source_units_frames, function(){
-        __obj_stanncam_manager.__switching_window_mode = false;
+		__obj_stanncam_manager.__switching_window_mode = false;
 		__stanncam_update_resolution();
 	});
 }
@@ -239,7 +239,7 @@ function __stanncam_update_resolution(){
 			__stanncam_center();
 			break;
 		//windowed
-		case STANNCAM_WINDOW_MODE.WINDOWED: 
+		case STANNCAM_WINDOW_MODE.WINDOWED:
 			if(__obj_stanncam_manager.keep_aspect_ratio){
 				var _res_ratio = (__obj_stanncam_manager.display_res_w / __obj_stanncam_manager.display_res_h) / (global.game_w / global.game_h);
 				var _game_ratio = global.game_w / global.game_h;
@@ -254,19 +254,19 @@ function __stanncam_update_resolution(){
 				global.res_w = __obj_stanncam_manager.display_res_w;
 				global.res_h = __obj_stanncam_manager.display_res_h;
 			}
-        	
-            window_set_size(__obj_stanncam_manager.display_res_w, __obj_stanncam_manager.display_res_h);
+			
+			window_set_size(__obj_stanncam_manager.display_res_w, __obj_stanncam_manager.display_res_h);
 			break;
 	}
 	
 	with(__obj_stanncam_manager){
-        
-        __gui_x_scale = global.res_w / __gui_res_w; 
-        __gui_y_scale = global.res_h / __gui_res_h;
-        
-        global.gui_w = __gui_res_w;
-        global.gui_h = __gui_res_h;
-        
+		
+		__gui_x_scale = global.res_w / __gui_res_w;
+		__gui_y_scale = global.res_h / __gui_res_h;
+		
+		global.gui_w = __gui_res_w;
+		global.gui_h = __gui_res_h;
+		
 		if(stanncam_get_keep_aspect_ratio()){
 			var _ratio = (global.res_w / global.res_h) / (global.game_w / global.game_h);
 			if(_ratio > 1){
@@ -279,13 +279,13 @@ function __stanncam_update_resolution(){
 		} else {
 			__display_scale_x = stanncam_get_res_scale_x();
 			__display_scale_y = stanncam_get_res_scale_y();
-            
-    		if(stanncam_get_gui_keep_aspect_ratio()){
-                global.gui_w *= (__gui_x_scale / __gui_y_scale);
-                __gui_x_scale = __gui_y_scale;
-            }
-        } 
-        display_set_gui_maximize(__gui_x_scale , __gui_y_scale, stanncam_ratio_compensate_x(), stanncam_ratio_compensate_y());
+			
+			if(stanncam_get_gui_keep_aspect_ratio()){
+				global.gui_w *= (__gui_x_scale / __gui_y_scale);
+				__gui_x_scale = __gui_y_scale;
+			}
+		}
+		display_set_gui_maximize(__gui_x_scale , __gui_y_scale, stanncam_ratio_compensate_x(), stanncam_ratio_compensate_y());
 	}
 }
 

@@ -17,5 +17,5 @@ draw_zones = false;
 
 __gui_res_w = 1;
 __gui_res_h = 1;
-__gui_x_scale = 1; 
+__gui_x_scale = 1;
 __gui_y_scale = 1;

@@ -11,10 +11,10 @@ draw_line(dx - size, dy, dx + size, dy);
 draw_line(dx, dy - size, dx, dy + size);
 
 //draws circle in center of room
-var cx = cam1.room_to_gui_x(room_width/2 -1);
-var cy = cam1.room_to_gui_y(room_height/2 -1);
+var cx = cam1.room_to_gui_x(room_width / 2 - 1);
+var cy = cam1.room_to_gui_y(room_height / 2 - 1);
 
-draw_circle(cx,cy,20,true);
+draw_circle(cx, cy, 20, true);
 
 var _outline_width = 1;
 var _precision = 8;

@@ -30,7 +30,7 @@ draw_text_outline(1, _offset * 9, "[B] smooth_draw: " + (cam1.smooth_draw ? "ON"
 draw_text_outline(1, _offset * 10, "[1 & 2 & 3] to switch between example rooms", _outline_width, _precision);
 
 //draw current resolution text
-draw_set_halign(fa_right)
+draw_set_halign(fa_right);
 draw_text_outline(global.gui_w - 1, 0, "Game size: " + string(global.game_w) + " x " + string(global.game_h), _outline_width, _precision);
 draw_text_outline(global.gui_w - 1, _offset, "Resolution: " + string(global.res_w) + " x " + string(global.res_h) + " [F1]", _outline_width, _precision);
 draw_text_outline(global.gui_w - 1, _offset * 2, "GUI resolution: " + string(global.gui_w) + " x " + string(global.gui_h) + " [F2]", _outline_width, _precision);
@@ -62,8 +62,8 @@ if(cam1.out_of_bounds(obj_player.x, obj_player.y, 8)){
 	var _gui_scale_x = stanncam_get_gui_scale_x();
 	var _gui_scale_y = stanncam_get_gui_scale_y();
 	
-	_x = clamp(_x, _margin, cam1.width * _gui_scale_x -_margin);
-	_y = clamp(_y, _margin, cam1.height * _gui_scale_y -_margin);
+	_x = clamp(_x, _margin, cam1.width * _gui_scale_x - _margin);
+	_y = clamp(_y, _margin, cam1.height * _gui_scale_y - _margin);
 	
 	var _x2 = cam1.room_to_gui_x(obj_player.x);
 	var _y2 = cam1.room_to_gui_y(obj_player.y);
@@ -96,8 +96,8 @@ if(pointer){
 	}
 }
 
-var _x = cam1.get_mouse_x(); 
+var _x = cam1.get_mouse_x();
 var _y = cam1.get_mouse_y();
 draw_set_color(c_red);
-draw_circle(cam1.room_to_gui_x(_x),cam1.room_to_gui_y(_y),15,true);
+draw_circle(cam1.room_to_gui_x(_x), cam1.room_to_gui_y(_y), 15, true);
 draw_set_color(c_white);

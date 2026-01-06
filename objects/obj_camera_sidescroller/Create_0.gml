@@ -6,19 +6,19 @@ resolutions = [
 	{width:640,  height:360},
 	{width:1280, height:720},
 	{width:1920, height:1080},
-	{width:2560, height:1440}
+	{width:2560, height:1440},
 ];
 
 gui_resolutions = [
 	{width:320,  height:180}, //16:9
 	{width:640,  height:360},
-	{width:1280, height:720}
+	{width:1280, height:720},
 ];
 
 game_res = 4;
 gui_res = 1;
 
-stanncam_init(resolutions[2].width, resolutions[2].height, resolutions[game_res].width, resolutions[game_res].height,gui_resolutions[gui_res].width, gui_resolutions[gui_res].height);
+stanncam_init(resolutions[2].width, resolutions[2].height, resolutions[game_res].width, resolutions[game_res].height, gui_resolutions[gui_res].width, gui_resolutions[gui_res].height);
 
 cam1 = new stanncam(obj_player_sidescroller.x, obj_player_sidescroller.y, global.game_w, global.game_h);
 cam1.follow = obj_player_sidescroller;
