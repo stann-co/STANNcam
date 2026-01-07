@@ -187,14 +187,16 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			}
 		
 		} else if(__moving){
-			__t++;
-			
 			//gradually moves camera into position based on duration
 			x = stanncam_animcurve(__t, __xStart, __xTo, __duration, anim_curve);
 			y = stanncam_animcurve(__t, __yStart, __yTo, __duration, anim_curve);
+
+			__t = min(__t + 1, __duration);
 			
 			if(__t >= __duration){
 				__moving = false;
+				x = __xTo;
+				y = __yTo;
 			}
 		}
 		#endregion
@@ -279,9 +281,14 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			//gradually offsets camera based on duration
 			offset_x = stanncam_animcurve(__offset_t, __offset_xStart, __offset_xTo, __offset_duration, anim_curve_offset);
 			offset_y = stanncam_animcurve(__offset_t, __offset_yStart, __offset_yTo, __offset_duration, anim_curve_offset);
-		
-			__offset_t++;
-			if(x == __offset_xTo && y == __offset_yTo) __offset = false;
+			
+			__offset_t = min(__offset_t + 1, __offset_duration);
+
+			if(__offset_t >= __offset_duration){
+				__offset = false;
+				offset_x = __offset_xTo;
+				offset_y = __offset_yTo;
+			}
 		}
 		#endregion
 		
@@ -300,20 +307,25 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 				width = stanncam_animcurve(__dimen_t, __wStart, __wTo, __dimen_duration, anim_curve_size);
 				height = stanncam_animcurve(__dimen_t, __hStart, __hTo, __dimen_duration, anim_curve_size);
 				
-				__dimen_t++;
-				
-				if(width == __wTo && height == __hTo) __size_change = false;
+				__dimen_t = min(__dimen_t + 1, __dimen_duration);
+
+				if(__dimen_t >= __dimen_duration){
+					__size_change = false;
+					width = __wTo;
+					height = __hTo;
+				}
 			}
 			
 			if(__zooming){
-				
 				//gradually zooms camera
 				zoom_amount = stanncam_animcurve(__t_zoom, __zoomStart, __zoomTo, __zoom_duration, anim_curve_zoom);
 				
-				__t_zoom++;
-				
-				if(zoom_amount == __zoomTo) __zooming = false;
-				
+				__t_zoom = min(__t_zoom + 1, __zoom_duration);
+
+				if(__t_zoom >= __zoom_duration) {
+					__zooming = false;
+					zoom_amount = __zoomTo;
+				}
 			}
 		}
 		#endregion
