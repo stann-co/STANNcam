@@ -177,7 +177,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			
 			//update camera position
 			if(bounds_dist_w != 0){
-				var _spd = (bounds_dist_w / spd_threshold) * spd;;
+				var _spd = (bounds_dist_w / spd_threshold) * spd;
 				x += _spd;
 			}
 			
@@ -517,9 +517,9 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @returns {Real}
 	/// @ignore
 	static get_mouse_x = function(){
-		var _mouse_x = __view_to_room_x( (window_mouse_get_x() - stanncam_ratio_compensate_x()) / stanncam_get_res_scale_x() );
+		var _mouse_x = __view_to_room_x( (window_mouse_get_x() - stanncam_ratio_compensate_x()) / stanncam_get_res_scale_x());
 		_mouse_x += __constrain_frac_x + __constrain_offset_x;
-		return _mouse_x;;
+		return _mouse_x;
 	}
 	
 	/// @function get_mouse_y
