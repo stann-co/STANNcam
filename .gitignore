@@ -1,7 +1,12 @@
 # GameMaker files
 *.resource_order
 
+# YYP Maker files
+___yyp_maker_trash/
+
 # Stitch files
 stitch.config.json
 tmp/
 /options
+sprites.import.json
+sprites.info.json
