@@ -207,8 +207,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			if(_zone_count != 0){
 				
 				//adds included zones to list
-				for (var d = 0; d < _zone_count; d++) {
-					var _zone = _zone_list[|d];
+				for (var j = 0; j < _zone_count; j++) {
+					var _zone = _zone_list[| j];
 					var _included_zones_count = array_length(_zone.included_zones);
 					if(_included_zones_count > 0){
 						
@@ -229,15 +229,17 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			
 			var _active_list = array_last(__zone_lists);
 			
+			var _active_list_compare = noone;
 			if(ds_exists(_active_list, ds_type_list)){
-				var _active_list_compare = ds_list_write(_active_list);
-			} else var _active_list_compare = noone;
+				_active_list_compare = ds_list_write(_active_list);
+			}
 			
+			var _zone_list_compare = noone;
 			if(ds_exists(_zone_list, ds_type_list)){
-				var _zone_list_compare = ds_list_write(_zone_list);
-			} else var _zone_list_compare = noone;
+				_zone_list_compare = ds_list_write(_zone_list);
+			}
 			
-			 //if entering a new list of zones, it gets added to the zone_lists array. and the previous ones fade out over time
+			//if entering a new list of zones, it gets added to the zone_lists array. and the previous ones fade out over time
 			if(_active_list_compare != _zone_list_compare ){
 				array_push(__zone_lists, _zone_list);
 				array_push(__zone_lists_strength, 0);
@@ -245,23 +247,27 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 					//ensures that the zone lists array has a max size
 					array_shift(__zone_lists_strength);
 					array_shift(__zone_lists);
+				}
 			}
-		}
 			
 			var _len = array_length(__zone_lists_strength) - 1;
-			for (var l = 0; l <= _len; l++) {
-				if(l != _len){
-					__zone_lists_strength[l] = lerp(__zone_lists_strength[l], 0, __constrain_spd);
-					
+			for (var k = 0; k <= _len; k++) {
+				if(k != _len){
+					__zone_lists_strength[k] = lerp(__zone_lists_strength[k], 0, __constrain_spd);
 				} else {
-					__zone_lists_strength[l] = lerp(__zone_lists_strength[l], 1, __constrain_spd);
+					__zone_lists_strength[k] = lerp(__zone_lists_strength[k], 1, __constrain_spd);
 				}
 				
-				if(__zone_lists_strength[l] == 0){
-					array_delete(__zone_lists_strength, l, 1);
-					array_delete(__zone_lists, l, 1);
+				if(__zone_lists_strength[k] == 0){
+					array_delete(__zone_lists_strength, k, 1);
+					
+					if(ds_exists(__zone_lists[k], ds_type_list)){
+						ds_list_destroy(__zone_lists[k]);
+					}
+					array_delete(__zone_lists, k, 1);
+					
 					_len = array_length(__zone_lists_strength) - 1;
-					l--;
+					k--;
 				}
 			}
 		}
@@ -812,7 +818,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 				// eg zone.right zone.left ect
 				
 				for (var z = 0; z < ds_list_size(__zone_lists[l]); z++) {
-					var _zone = __zone_lists[l][|z];
+					var _zone = __zone_lists[l][| z];
 					
 					if(_zone.left ){ // if dist from the zone edge to the center is shorter than previous it takes over
 						if(_zone_left == undefined || _zone.bbox_left < _zone_left){
