@@ -242,12 +242,18 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			}
 			
 			//if entering a new list of zones, it gets added to the zone_lists array. and the previous ones fade out over time
-			if(_active_list_compare != _zone_list_compare ){
-				array_push(__zone_lists, _zone_list);
+			if(_active_list_compare != _zone_list_compare){
 				array_push(__zone_lists_strength, 0);
+				array_push(__zone_lists, _zone_list);
+
+				//ensures that the zone lists array has a max size
 				if(array_length(__zone_lists) > __zone_lists_max){
-					//ensures that the zone lists array has a max size
 					array_shift(__zone_lists_strength);
+					
+					//if the index being removed is a DS list, destroy it to prevent leaks
+					if(ds_exists(__zone_lists[0], ds_type_list)){
+						ds_list_destroy(__zone_lists[k]);
+					}
 					array_shift(__zone_lists);
 				}
 			}
@@ -263,6 +269,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 				if(__zone_lists_strength[k] == 0){
 					array_delete(__zone_lists_strength, k, 1);
 					
+					//if the index being removed is a DS list, destroy it to prevent leaks
 					if(ds_exists(__zone_lists[k], ds_type_list)){
 						ds_list_destroy(__zone_lists[k]);
 					}
