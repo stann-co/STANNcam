@@ -67,16 +67,16 @@ if(keyboard_check_pressed(vk_tab)){
 	
 	switch (speed_mode) {
 		case 0:
-			cam1.set_speed(0.5, 50);
+			cam1.set_speed(0.05);
 			break;
 		case 1:
-			cam1.set_speed(1, 50);
+			cam1.set_speed(0.1);
 			break;
 		case 2:
-			cam1.set_speed(2, 50);
+			cam1.set_speed(0.2);
 			break;
 		case 3:
-			cam1.set_speed(10, 50);
+			cam1.set_speed(1);
 			break;
 	}
 }

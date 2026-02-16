@@ -45,8 +45,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	//the first camera uses the application surface
 	use_app_surface = cam_id == 0;
 	
-	spd = 10; //how fast the camera follows an instance
-	spd_threshold = 50; //the minimum distance the camera is away, for the speed to be in full effect
+	spd = 1; //how fast the camera follows an instance from 0-1
 	
 	room_constrain = false; //if camera should be constrained to the room size
 	
@@ -91,7 +90,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	__constrain_frac_x = 0;
 	__constrain_frac_y = 0;
 	
-	__constrain_spd = 0.05;
+	__constrain_spd = 0.1;
 	
 	paused = false;
 	
@@ -177,12 +176,12 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			
 			//update camera position
 			if(bounds_dist_w != 0){
-				var _spd = (bounds_dist_w / spd_threshold) * spd;
+				var _spd = (bounds_dist_w / 1) * spd;
 				x += _spd;
 			}
 			
 			if(bounds_dist_h != 0){
-				var _spd = (bounds_dist_h / spd_threshold) * spd;
+				var _spd = (bounds_dist_h / 1) * spd;
 				y += _spd;
 			}
 		
@@ -252,7 +251,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 					
 					//if the index being removed is a DS list, destroy it to prevent leaks
 					if(ds_exists(__zone_lists[0], ds_type_list)){
-						ds_list_destroy(__zone_lists[k]);
+						ds_list_destroy(__zone_lists[0]);
 					}
 					array_shift(__zone_lists);
 				}
@@ -354,7 +353,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		_clone.offset_x = offset_x;
 		_clone.offset_y = offset_y;
 		_clone.spd = spd;
-		_clone.spd_threshold = spd_threshold;
 		_clone.room_constrain = room_constrain;
 		_clone.bounds_w = bounds_w;
 		_clone.bounds_h = bounds_h;
@@ -473,12 +471,10 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	
 	/// @function set_speed
 	/// @description changes the speed of the camera
-	/// @param {Real} _spd - how fast the camera can move
-	/// @param {Real} _threshold - minimum distance for the speed to have full effect
+	/// @param {Real} _spd - how fast the camera follows from 0-1
 	/// @ignore
-	static set_speed = function(_spd, _threshold){
+	static set_speed = function(_spd){
 		spd = _spd;
-		spd_threshold = _threshold;
 	}
 	
 	/// @function set_paused
