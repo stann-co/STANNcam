@@ -346,7 +346,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function clone
 	/// @description returns a clone of the stanncam
 	/// @returns {Struct.stanncam}
-	/// @ignore
 	static clone = function(){
 		var _clone = new stanncam(x, y, width, height);
 		_clone.surface_extra_on = surface_extra_on;
@@ -372,7 +371,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _x
 	/// @param {Real} _y
 	/// @param {Real} [_duration=0]
-	/// @ignore
 	static move = function(_x, _y, _duration=0){
 		if(_duration == 0){
 			//view position is updated immediately
@@ -396,7 +394,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _width
 	/// @param {Real} _height
 	/// @param {Real} [_duration=0]
-	/// @ignore
 	static set_size = function(_width, _height, _duration=0){
 		if(_duration == 0){ //if duration is 0 the view is updated immediately
 			width = _width;
@@ -419,7 +416,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _offset_x
 	/// @param {Real} _offset_y
 	/// @param {Real} [_duration=0]
-	/// @ignore
 	static offset = function(_offset_x, _offset_y, _duration=0){
 		if(_duration == 0){ //if duration is 0 the view is updated immediately
 			offset_x = _offset_x;
@@ -441,7 +437,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description zooms the camera over a duration
 	/// @param {Real} _zoom
 	/// @param {Real} [_duration=0]
-	/// @ignore
 	static zoom = function(_zoom, _duration=0){
 		if(_duration == 0){ //if duration is 0 the view is updated immediately
 			zoom_amount = _zoom;
@@ -462,7 +457,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description makes the camera shake
 	/// @param {Real} _magnitude
 	/// @param {Real} _duration - duration in frames
-	/// @ignore
 	static shake_screen = function(_magnitude, _duration){
 		__shake_magnitude = _magnitude;
 		__shake_length = _duration;
@@ -472,7 +466,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function set_speed
 	/// @description changes the speed of the camera
 	/// @param {Real} _spd - how fast the camera follows from 0-1
-	/// @ignore
 	static set_speed = function(_spd){
 		spd = _spd;
 	}
@@ -500,7 +493,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function get_x
 	/// @description get camera corner x position
 	/// @returns {Real}
-	/// @ignore
 	static get_x = function(){
 		var _x = camera_get_view_x(__camera);
 		return _x + (width / 2) * ceil(zoom_amount - 1);
@@ -509,7 +501,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function get_y
 	/// @description get camera corner y position
 	/// @returns {Real}
-	/// @ignore
 	static get_y = function(){
 		var _y = camera_get_view_y(__camera);
 		return _y + (height / 2) * ceil(zoom_amount - 1);
@@ -518,7 +509,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function get_mouse_x
 	/// @description gets the mouse x position within room relative to the camera
 	/// @returns {Real}
-	/// @ignore
 	static get_mouse_x = function(){
 		var _mouse_x = view_to_room_x( (window_mouse_get_x() - stanncam_ratio_compensate_x()) / stanncam_get_res_scale_x());
 		_mouse_x += __constrain_frac_x + __constrain_offset_x;
@@ -528,7 +518,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function get_mouse_y
 	/// @description gets the mouse y position within room relative to the camera
 	/// @returns {Real}
-	/// @ignore
 	static get_mouse_y = function(){
 		var _mouse_y = view_to_room_y( (window_mouse_get_y() - stanncam_ratio_compensate_y()) / stanncam_get_res_scale_y());
 		_mouse_y += __constrain_frac_y + __constrain_offset_y;
@@ -539,7 +528,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description returns the room x position as the position on the gui relative to camera
 	/// @param {Real} _x
 	/// @returns {Real}
-	/// @ignore
 	static room_to_gui_x = function(_x){
 		var _gui_x = _x - __constrain_offset_x - __constrain_frac_x;
 		_gui_x = room_to_view_x(_gui_x) * stanncam_get_gui_scale_x() - 1;
@@ -550,7 +538,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description returns the room y position as the position on the gui relative to camera
 	/// @param {Real} _y
 	/// @returns {Real}
-	/// @ignore
 	static room_to_gui_y = function(_y){
 		var _gui_y = _y - __constrain_offset_y - __constrain_frac_y;
 		_gui_y = room_to_view_y(_gui_y) * stanncam_get_gui_scale_y() - 1;
@@ -560,7 +547,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function get_active_zone
 	/// @description returns list of active zones the followed instance is within, noone if outside, or no instance is followed
 	/// @returns {Id.Instance|Noone}
-	/// @ignore
 	static get_active_zone = function(){
 		if(follow == noone) return noone;
 		
@@ -595,7 +581,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _y
 	/// @param {Real} [_margin=0]
 	/// @returns {Bool}
-	/// @ignore
 	static out_of_bounds = function(_x, _y, _margin=0){
 		_x = room_to_view_x(_x);
 		_y = room_to_view_y(_y);
@@ -612,7 +597,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	
 	/// @function destroy
 	/// @description marks the stanncam as destroyed
-	/// @ignore
 	static destroy = function(){
 		camera_destroy(__camera);
 		global.stanncams[cam_id] = -1;
@@ -628,18 +612,13 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	
 	/// @function is_destroyed
 	/// @returns {Bool}
-	/// @ignore
 	static is_destroyed = function(){
 		return __destroyed;
 	}
-#endregion
-	
-#region Internal functions
-	
-	/// @function room_to_view_x
+    
+    /// @function room_to_view_x
 	/// @description room position to camera view
 	/// @param {Real} [_x]
-	/// @ignore
 	static room_to_view_x = function(_x){
 		var _zoom = __get_zoom();
 		var _zoom_offset = (width * (1 - _zoom)) / 2;
@@ -653,7 +632,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function view_to_room_x
 	/// @description camera view to room position
 	/// @param {Real} [_x]
-	/// @ignore
 	static view_to_room_x = function(_x){
 		var _zoom = __get_zoom();
 		var _zoom_offset = (width * (1 - _zoom)) / 2;
@@ -667,7 +645,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function room_to_view_y
 	/// @description room position to camera view
 	/// @param {Real} [_y]
-	/// @ignore
 	static room_to_view_y = function(_y){
 		var _zoom = __get_zoom();
 		var _zoom_offset = (height * (1 - _zoom)) / 2;
@@ -681,7 +658,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @function view_to_room_y
 	/// @description camera view to room position
 	/// @param {Real} [_y]
-	/// @ignore
 	static view_to_room_y = function(_y){
 		var _zoom = __get_zoom();
 		var _zoom_offset = (height * (1 - _zoom)) / 2;
@@ -691,6 +667,9 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		
 		return _y;
 	}
+#endregion
+	
+#region Internal functions
 	
 	/// @function __get_zoom
 	/// @description gets zoom value, snapped if smooth draw is off
@@ -739,6 +718,9 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		view_set_surface_id(cam_id, surface);
 	}
 	
+    /// @function __postdraw
+	/// @description postdraw drawing
+	/// @ignore
 	static __postdraw = function(){
 		if(surface_extra_on){
 			var _left = 0;
@@ -1025,7 +1007,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _y
 	/// @param {Real} [_scale_x=1]
 	/// @param {Real} [_scale_y=1]
-	/// @ignore
 	static draw = function(_x, _y, _scale_x=1, _scale_y=1){
 		__check_surface();
 		__debug_draw();
@@ -1038,7 +1019,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _y
 	/// @param {Real} [_scale_x=1]
 	/// @param {Real} [_scale_y=1]
-	/// @ignore
 	static draw_no_compensate = function(_x, _y, _scale_x=1, _scale_y=1){
 		__check_surface();
 		__debug_draw();
@@ -1055,7 +1035,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _height
 	/// @param {Real} [_scale_x=1]
 	/// @param {Real} [_scale_y=1]
-	/// @ignore
 	static draw_part = function(_x, _y, _left, _top, _width, _height, _scale_x=1, _scale_y=1){
 		__check_surface();
 		__debug_draw();
@@ -1071,7 +1050,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} [_scale_y=1]
 	/// @param {Real} [_surf_width=width]
 	/// @param {Real} [_surf_height=height]
-	/// @ignore
 	static draw_special = function(_draw_func, _x, _y, _scale_x=1, _scale_y=1, _surf_width=width, _surf_height=height){
 		
 		var _zoom = ceil(zoom_amount);
@@ -1128,7 +1106,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} [_width=width]
 	/// @param {Real} [_height=height]
 	/// @param {Bool} [_ratio_compensate=true]
-	/// @ignore
 	static draw_surf = function(_surface, _x, _y, _scale_x=1, _scale_y=1, _left=0, _top=0, _width=width, _height=height, _ratio_compensate=true){
 		if(!surface_exists(_surface)){
 			return;
