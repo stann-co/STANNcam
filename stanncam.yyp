@@ -16,6 +16,7 @@
     {"$GMFolder":"","%Name":"topdown","folderPath":"folders/Objects/topdown.yy","name":"topdown","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"shaders","folderPath":"folders/shaders.yy","name":"shaders","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"BG","folderPath":"folders/Sprites/BG.yy","name":"BG","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Layers","folderPath":"folders/Sprites/BG/Layers.yy","name":"Layers","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -34,7 +35,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.14.1.210",
+    "IDEVersion":"2024.14.3.217",
   },
   "name":"stanncam",
   "resources":[
@@ -56,6 +57,7 @@
     {"id":{"name":"obj_player2","path":"objects/obj_player2/obj_player2.yy",},},
     {"id":{"name":"obj_stanncam_zone_1side","path":"objects/obj_stanncam_zone_1side/obj_stanncam_zone_1side.yy",},},
     {"id":{"name":"obj_stanncam_zone_2side","path":"objects/obj_stanncam_zone_2side/obj_stanncam_zone_2side.yy",},},
+    {"id":{"name":"obj_stanncam_zone_blank","path":"objects/obj_stanncam_zone_blank/obj_stanncam_zone_blank.yy",},},
     {"id":{"name":"obj_stanncam_zone_corner","path":"objects/obj_stanncam_zone_corner/obj_stanncam_zone_corner.yy",},},
     {"id":{"name":"obj_stanncam_zone_u","path":"objects/obj_stanncam_zone_u/obj_stanncam_zone_u.yy",},},
     {"id":{"name":"obj_stanncam_zone","path":"objects/obj_stanncam_zone/obj_stanncam_zone.yy",},},
@@ -73,6 +75,7 @@
     {"id":{"name":"stanncam_resolution_presets","path":"scripts/stanncam_resolution_presets/stanncam_resolution_presets.yy",},},
     {"id":{"name":"stanncam_shake","path":"scripts/stanncam_shake/stanncam_shake.yy",},},
     {"id":{"name":"stanncam","path":"scripts/stanncam/stanncam.yy",},},
+    {"id":{"name":"sh_tv","path":"shaders/sh_tv/sh_tv.yy",},},
     {"id":{"name":"spr_arrow_small","path":"sprites/spr_arrow_small/spr_arrow_small.yy",},},
     {"id":{"name":"spr_arrow","path":"sprites/spr_arrow/spr_arrow.yy",},},
     {"id":{"name":"spr_ball","path":"sprites/spr_ball/spr_ball.yy",},},
@@ -89,6 +92,7 @@
     {"id":{"name":"spr_player2_moving","path":"sprites/spr_player2_moving/spr_player2_moving.yy",},},
     {"id":{"name":"spr_stanncam_zone_1side","path":"sprites/spr_stanncam_zone_1side/spr_stanncam_zone_1side.yy",},},
     {"id":{"name":"spr_stanncam_zone_2side","path":"sprites/spr_stanncam_zone_2side/spr_stanncam_zone_2side.yy",},},
+    {"id":{"name":"spr_stanncam_zone_connector","path":"sprites/spr_stanncam_zone_connector/spr_stanncam_zone_connector.yy",},},
     {"id":{"name":"spr_stanncam_zone_corner","path":"sprites/spr_stanncam_zone_corner/spr_stanncam_zone_corner.yy",},},
     {"id":{"name":"spr_stanncam_zone_u","path":"sprites/spr_stanncam_zone_u/spr_stanncam_zone_u.yy",},},
     {"id":{"name":"spr_stanncam_zone","path":"sprites/spr_stanncam_zone/spr_stanncam_zone.yy",},},
@@ -108,9 +112,9 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"rm_init","path":"rooms/rm_init/rm_init.yy",},},
+    {"roomId":{"name":"rm_sidescroller","path":"rooms/rm_sidescroller/rm_sidescroller.yy",},},
     {"roomId":{"name":"rm_pixel_grid","path":"rooms/rm_pixel_grid/rm_pixel_grid.yy",},},
     {"roomId":{"name":"rm_test","path":"rooms/rm_test/rm_test.yy",},},
-    {"roomId":{"name":"rm_sidescroller","path":"rooms/rm_sidescroller/rm_sidescroller.yy",},},
   ],
   "templateType":null,
   "TextureGroups":[
