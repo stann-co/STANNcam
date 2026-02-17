@@ -7,8 +7,8 @@
 /// @param {Real} [_width=global.game_w]
 /// @param {Real} [_height=global.game_h]
 /// @param {Bool} [_surface_extra_on=false] - use surface_extra in regular draw events
-/// @param {Bool} [_smooth_draw=true] - use fractional camera position when drawing
-function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surface_extra_on=false, _smooth_draw=true) constructor{
+/// @param {Bool} [_smooth_draw=false] - use fractional camera position when drawing
+function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surface_extra_on=false, _smooth_draw=false) constructor{
 #region init
 	//whenever a new cam is created number_of_cams gets incremented
 	cam_id = __obj_stanncam_manager.number_of_cams;
