@@ -364,21 +364,21 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		_clone.debug_draw = debug_draw;
 		_clone.paused = paused;
 		
-		_clone.__moving = __moving
-		_clone.__xStart = __xStart
-		_clone.__yStart = __yStart
-		_clone.__xTo = __xTo
-		_clone.__yTo = __yTo
-		_clone.__duration = __duration
-		_clone.__t = __t
+		_clone.__moving = __moving;
+		_clone.__xStart = __xStart;
+		_clone.__yStart = __yStart;
+		_clone.__xTo = __xTo;
+		_clone.__yTo = __yTo;
+		_clone.__duration = __duration;
+		_clone.__t = __t;
 		
-		_clone.__size_change = __size_change
-		_clone.__wStart = __wStart
-		_clone.__hStart = __hStart
-		_clone.__wTo = __wTo
-		_clone.__hTo = __hTo
-		_clone.__dimen_duration = __dimen_duration
-		_clone.__dimen_t = __dimen_t
+		_clone.__size_change = __size_change;
+		_clone.__wStart = __wStart;
+		_clone.__hStart = __hStart;
+		_clone.__wTo = __wTo;
+		_clone.__hTo = __hTo;
+		_clone.__dimen_duration = __dimen_duration;
+		_clone.__dimen_t = __dimen_t;
 		
 		_clone.__offset = __offset
 		_clone.__offset_xStart = __offset_xStart;
@@ -388,13 +388,13 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		_clone.__offset_duration = __offset_duration;
 		_clone.__offset_t = __offset_t;
 		
-		_clone.zoom_amount = zoom_amount
+		_clone.zoom_amount = zoom_amount;
 		
-		_clone.__zooming = __zooming
-		_clone.__t_zoom = __t_zoom
-		_clone.__zoomStart = __zoomStart
-		_clone.__zoomTo = __zoomTo
-		_clone.__zoom_duration = __zoom_duration
+		_clone.__zooming = __zooming;
+		_clone.__t_zoom = __t_zoom;
+		_clone.__zoomStart = __zoomStart;
+		_clone.__zoomTo = __zoomTo;
+		_clone.__zoom_duration = __zoom_duration;
 		
 		return _clone;
 	}
