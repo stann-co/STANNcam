@@ -176,12 +176,12 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			
 			//update camera position
 			if(bounds_dist_w != 0){
-				var _spd = (bounds_dist_w / 1) * spd;
+				var _spd = (bounds_dist_w) * spd;
 				x += _spd;
 			}
 			
 			if(bounds_dist_h != 0){
-				var _spd = (bounds_dist_h / 1) * spd;
+				var _spd = (bounds_dist_h) * spd;
 				y += _spd;
 			}
 		
