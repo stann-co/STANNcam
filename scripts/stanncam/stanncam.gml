@@ -348,9 +348,9 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @returns {Struct.stanncam}
 	static clone = function(){
 		var _clone = new stanncam(x, y, width, height);
-        _clone.offset_x = offset_x;
+		_clone.offset_x = offset_x;
 		_clone.offset_y = offset_y;
-        _clone.follow = follow;
+		_clone.follow = follow;
 		_clone.surface_extra_on = surface_extra_on;
 		_clone.spd = spd;
 		_clone.room_constrain = room_constrain;
@@ -359,27 +359,27 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		_clone.smooth_draw = smooth_draw;
 		_clone.anim_curve = anim_curve;
 		_clone.anim_curve_zoom = anim_curve_zoom;
-        _clone.anim_curve_size = anim_curve_size;
+		_clone.anim_curve_size = anim_curve_size;
 		_clone.anim_curve_offset = anim_curve_offset;
-        _clone.debug_draw = debug_draw;
+		_clone.debug_draw = debug_draw;
 		_clone.paused = paused;
-        
-        _clone.__moving = __moving
-        _clone.__xStart = __xStart
-        _clone.__yStart = __yStart
-        _clone.__xTo = __xTo
-        _clone.__yTo = __yTo
-        _clone.__duration = __duration
-        _clone.__t = __t
-        
-  		_clone.__size_change = __size_change
+		
+		_clone.__moving = __moving
+		_clone.__xStart = __xStart
+		_clone.__yStart = __yStart
+		_clone.__xTo = __xTo
+		_clone.__yTo = __yTo
+		_clone.__duration = __duration
+		_clone.__t = __t
+		
+		_clone.__size_change = __size_change
 		_clone.__wStart = __wStart
 		_clone.__hStart = __hStart
 		_clone.__wTo = __wTo
 		_clone.__hTo = __hTo
 		_clone.__dimen_duration = __dimen_duration
 		_clone.__dimen_t = __dimen_t
-
+		
 		_clone.__offset = __offset
 		_clone.__offset_xStart = __offset_xStart;
 		_clone.__offset_yStart = __offset_yStart;
