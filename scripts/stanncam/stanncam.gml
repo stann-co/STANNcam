@@ -175,15 +175,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 			bounds_dist_h = floor((bounds_dist_h / 0.01) + 0.99) * 0.01;
 			
 			//update camera position
-			if(bounds_dist_w != 0){
-				var _spd = (bounds_dist_w) * spd;
-				x += _spd;
-			}
-			
-			if(bounds_dist_h != 0){
-				var _spd = (bounds_dist_h) * spd;
-				y += _spd;
-			}
+			x += bounds_dist_w * spd;
+			y += bounds_dist_h * spd;
 		
 		} else if(__moving){
 			//gradually moves camera into position based on duration
