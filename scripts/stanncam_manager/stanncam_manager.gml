@@ -105,7 +105,7 @@ function stanncam_set_window_mode(_window_mode){
 			window_set_showborder(false);
 			break;
 	}
-	call_later(10, time_source_units_frames, function(){
+	call_later(11, time_source_units_frames, function(){
 		__obj_stanncam_manager.__switching_window_mode = false;
 		__stanncam_update_resolution();
 	});
