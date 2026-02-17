@@ -544,7 +544,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description gets the mouse x position within room relative to the camera
 	/// @returns {Real}
 	static get_mouse_x = function(){
-		var _mouse_x = view_to_room_x( (window_mouse_get_x() - stanncam_ratio_compensate_x()) / stanncam_get_res_scale_x());
+		var _mouse_x = view_to_room_x((window_mouse_get_x() - stanncam_ratio_compensate_x()) / stanncam_get_res_scale_x());
 		_mouse_x += __constrain_frac_x + __constrain_offset_x;
 		return _mouse_x;
 	}
@@ -553,7 +553,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @description gets the mouse y position within room relative to the camera
 	/// @returns {Real}
 	static get_mouse_y = function(){
-		var _mouse_y = view_to_room_y( (window_mouse_get_y() - stanncam_ratio_compensate_y()) / stanncam_get_res_scale_y());
+		var _mouse_y = view_to_room_y((window_mouse_get_y() - stanncam_ratio_compensate_y()) / stanncam_get_res_scale_y());
 		_mouse_y += __constrain_frac_y + __constrain_offset_y;
 		return _mouse_y;
 	}
@@ -649,8 +649,8 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	static is_destroyed = function(){
 		return __destroyed;
 	}
-    
-    /// @function room_to_view_x
+
+	/// @function room_to_view_x
 	/// @description room position to camera view
 	/// @param {Real} [_x]
 	static room_to_view_x = function(_x){
@@ -752,7 +752,7 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 		view_set_surface_id(cam_id, surface);
 	}
 	
-    /// @function __postdraw
+	/// @function __postdraw
 	/// @description postdraw drawing
 	/// @ignore
 	static __postdraw = function(){
