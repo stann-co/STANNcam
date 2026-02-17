@@ -26,6 +26,9 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 #endregion
 
 #region variables
+	//the first camera uses the application surface
+	use_app_surface = cam_id == 0
+	
 	x = _x;
 	y = _y;
 	
@@ -41,9 +44,6 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	//The extra surface is only neccesary if you are drawing the camera recursively in the room
 	//Like a tv screen, where it can capture itself
 	surface_extra_on = _surface_extra_on;
-	
-	//the first camera uses the application surface
-	use_app_surface = cam_id == 0;
 	
 	spd = 1; //how fast the camera follows an instance from 0-1
 	
@@ -348,20 +348,53 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @returns {Struct.stanncam}
 	static clone = function(){
 		var _clone = new stanncam(x, y, width, height);
-		_clone.surface_extra_on = surface_extra_on;
-		_clone.offset_x = offset_x;
+        _clone.offset_x = offset_x;
 		_clone.offset_y = offset_y;
+        _clone.follow = follow;
+		_clone.surface_extra_on = surface_extra_on;
 		_clone.spd = spd;
 		_clone.room_constrain = room_constrain;
 		_clone.bounds_w = bounds_w;
 		_clone.bounds_h = bounds_h;
-		_clone.follow = follow;
 		_clone.smooth_draw = smooth_draw;
 		_clone.anim_curve = anim_curve;
 		_clone.anim_curve_zoom = anim_curve_zoom;
+        _clone.anim_curve_size = anim_curve_size;
 		_clone.anim_curve_offset = anim_curve_offset;
-		_clone.anim_curve_size = anim_curve_size;
+        _clone.debug_draw = debug_draw;
 		_clone.paused = paused;
+        
+        _clone.__moving = __moving
+        _clone.__xStart = __xStart
+        _clone.__yStart = __yStart
+        _clone.__xTo = __xTo
+        _clone.__yTo = __yTo
+        _clone.__duration = __duration
+        _clone.__t = __t
+        
+  		_clone.__size_change = __size_change
+		_clone.__wStart = __wStart
+		_clone.__hStart = __hStart
+		_clone.__wTo = __wTo
+		_clone.__hTo = __hTo
+		_clone.__dimen_duration = __dimen_duration
+		_clone.__dimen_t = __dimen_t
+
+		_clone.__offset = __offset
+		_clone.__offset_xStart = __offset_xStart;
+		_clone.__offset_yStart = __offset_yStart;
+		_clone.__offset_xTo = __offset_xTo;
+		_clone.__offset_yTo = __offset_yTo;
+		_clone.__offset_duration = __offset_duration;
+		_clone.__offset_t = __offset_t;
+		
+		_clone.zoom_amount = zoom_amount
+		
+		_clone.__zooming = __zooming
+		_clone.__t_zoom = __t_zoom
+		_clone.__zoomStart = __zoomStart
+		_clone.__zoomTo = __zoomTo
+		_clone.__zoom_duration = __zoom_duration
 		
 		return _clone;
 	}
@@ -372,10 +405,11 @@ function stanncam(_x=0, _y=0, _width=global.game_w, _height=global.game_h, _surf
 	/// @param {Real} _y
 	/// @param {Real} [_duration=0]
 	static move = function(_x, _y, _duration=0){
-		if(_duration == 0){
+		if(_duration == 0 && follow == noone){
 			//view position is updated immediately
 			x = _x;
 			y = _y;
+            __moving = false;
 			__update_view_pos();
 		} else {
 			__moving = true;
