@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center" font-size=100em>
-STANNcam 2.3.1 🎥
+STANNcam 2.4.0 🎥
 </h1>
 
 STANNcam is a pixel-perfect camera and resolution manager system for GameMaker (and onwards)  
@@ -17,6 +17,7 @@ https://github.com/jack27121/STANNcam/assets/46312671/d8bde347-346c-48de-88a5-86
 # Features
 * Easily add/clone/remove up to 8 cameras during runtime
 * Camera following options
+* Camera zones to constrain the camera when following an instance/player
 * Functions for moving/zooming/shaking/resizing the camera
 * Independent game and GUI resolution *(can be identical as well)*
 * Change display resolution, keep aspect-ratio during runtime
