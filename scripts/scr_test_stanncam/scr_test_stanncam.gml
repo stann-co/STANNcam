@@ -9,7 +9,7 @@ function test_stanncam_constructor_checkDefaultValues() {
     assertEqual(_.width, global.game_w);
     assertEqual(_.height, global.game_h);
     assertFalse(_.surface_extra_on);
-    assertTrue(_.smooth_draw);
+    assertFalse(_.smooth_draw);
 }
 
 function test_stanncam_constructor_createStanncamWithSpecifiedValues() {
@@ -333,6 +333,7 @@ function test_stanncamUpdateViewSize_invokeUpdateViewSize_shouldCreateSurface() 
 /// @ignore
 function test_stanncamUpdateViewSize_invokeUpdateViewSizeWithSmoothDraw_shouldCreateSurfaceUsingWidthAndHeightPlus1Pixel() {
     var _ = parent.cam;
+	_.smooth_draw = true
     _.use_app_surface = false;
     _.__update_view_size();
     assertEqual(_.width + 1, surface_get_width(_.surface));
@@ -343,7 +344,6 @@ function test_stanncamUpdateViewSize_invokeUpdateViewSizeWithSmoothDraw_shouldCr
 function test_stanncamUpdateViewSize_invokeUpdateViewSizeWithoutSmoothDraw_shouldCreateSurfaceUsingWidthAndHeight() {
     var _ = parent.cam;
     _.use_app_surface = false;
-    _.smooth_draw = false;
     _.__update_view_size();
     assertEqual(_.width, surface_get_width(_.surface));
     assertEqual(_.height, surface_get_height(_.surface));
