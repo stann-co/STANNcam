@@ -1,6 +1,6 @@
 {
   "$GMSprite":"v2",
-  "%Name":"spr_stanncam_zone_2side",
+  "%Name":"spr_stanncam_zone_connector",
   "bboxMode":0,
   "bbox_bottom":15,
   "bbox_left":0,
@@ -19,10 +19,9 @@
   "height":16,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"132f2d99-70f5-4cbb-b3aa-b40016946f9f","blendMode":0,"displayName":"Layer 1","isLocked":false,"name":"132f2d99-70f5-4cbb-b3aa-b40016946f9f","opacity":50.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
-    {"$GMImageLayer":"","%Name":"f6884eec-9d9a-4a19-b539-64ffb7c6c359","blendMode":0,"displayName":"default","isLocked":false,"name":"f6884eec-9d9a-4a19-b539-64ffb7c6c359","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"f6884eec-9d9a-4a19-b539-64ffb7c6c359","blendMode":0,"displayName":"default","isLocked":false,"name":"f6884eec-9d9a-4a19-b539-64ffb7c6c359","opacity":50.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
-  "name":"spr_stanncam_zone_2side",
+  "name":"spr_stanncam_zone_connector",
   "nineSlice":{
     "$GMNineSliceData":"",
     "bottom":3,
@@ -47,7 +46,7 @@
   "resourceVersion":"2.0",
   "sequence":{
     "$GMSequence":"v1",
-    "%Name":"spr_stanncam_zone_2side",
+    "%Name":"spr_stanncam_zone_connector",
     "autoRecord":true,
     "backdropHeight":768,
     "backdropImageOpacity":0.5,
@@ -71,7 +70,7 @@
       "resourceType":"KeyframeStore<MomentsEventKeyframe>",
       "resourceVersion":"2.0",
     },
-    "name":"spr_stanncam_zone_2side",
+    "name":"spr_stanncam_zone_connector",
     "playback":1,
     "playbackSpeed":1.0,
     "playbackSpeedType":1,
@@ -84,7 +83,7 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"f0c5359e-863a-4eb0-a39c-8d0c9ea08914","path":"sprites/spr_stanncam_zone_2side/spr_stanncam_zone_2side.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"f1737391-6fa0-4fcd-b422-2f4740b1ebb8","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"f0c5359e-863a-4eb0-a39c-8d0c9ea08914","path":"sprites/spr_stanncam_zone_connector/spr_stanncam_zone_connector.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"5646b359-c75f-4280-b443-339f4019b230","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,
